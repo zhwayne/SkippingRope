@@ -1,0 +1,4 @@
+framework module BluejayKit {
+  header "BluejayKit-Swift.h"
+  requires objc
+}

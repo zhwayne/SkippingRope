@@ -1,0 +1,4 @@
+framework module BlueCentralKit {
+  header "BlueCentralKit-Swift.h"
+  requires objc
+}

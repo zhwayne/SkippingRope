@@ -1,0 +1,431 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A9FADB3B2A8B7AD500E99B87 /* SkippingRopeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FADB3A2A8B7AD500E99B87 /* SkippingRopeApp.swift */; };
+		A9FADB3D2A8B7AD500E99B87 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FADB3C2A8B7AD500E99B87 /* ContentView.swift */; };
+		A9FADB3F2A8B7AD600E99B87 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9FADB3E2A8B7AD600E99B87 /* Assets.xcassets */; };
+		A9FADB422A8B7AD600E99B87 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9FADB412A8B7AD600E99B87 /* Preview Assets.xcassets */; };
+		A9FADB522A8B7B4600E99B87 /* SignalStrengthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FADB512A8B7B4500E99B87 /* SignalStrengthView.swift */; };
+		A9FADB552A8B7BA100E99B87 /* DeviceRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FADB532A8B7BA100E99B87 /* DeviceRowView.swift */; };
+		A9FADB562A8B7BA100E99B87 /* SpeechSynthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FADB542A8B7BA100E99B87 /* SpeechSynthesizer.swift */; };
+		A9FADB572A8B7D1600E99B87 /* BlueCentralKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9FADB4D2A8B7B2F00E99B87 /* BlueCentralKit.xcframework */; };
+		A9FADB582A8B7D1600E99B87 /* BlueCentralKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A9FADB4D2A8B7B2F00E99B87 /* BlueCentralKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A9FADB5A2A8B7D1700E99B87 /* BluejayKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9FADB4E2A8B7B2F00E99B87 /* BluejayKit.xcframework */; };
+		A9FADB5B2A8B7D1700E99B87 /* BluejayKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A9FADB4E2A8B7B2F00E99B87 /* BluejayKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A9FADB5E2A8B812D00E99B87 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = A9FADB5D2A8B812D00E99B87 /* ActivityIndicatorView */; };
+		A9FADB602A8B86E000E99B87 /* JumpRopeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FADB5F2A8B86E000E99B87 /* JumpRopeView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A9FADB592A8B7D1600E99B87 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A9FADB582A8B7D1600E99B87 /* BlueCentralKit.xcframework in Embed Frameworks */,
+				A9FADB5B2A8B7D1700E99B87 /* BluejayKit.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A9FADB372A8B7AD500E99B87 /* SkippingRope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkippingRope.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9FADB3A2A8B7AD500E99B87 /* SkippingRopeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkippingRopeApp.swift; sourceTree = "<group>"; };
+		A9FADB3C2A8B7AD500E99B87 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A9FADB3E2A8B7AD600E99B87 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A9FADB412A8B7AD600E99B87 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A9FADB4D2A8B7B2F00E99B87 /* BlueCentralKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = BlueCentralKit.xcframework; sourceTree = "<group>"; };
+		A9FADB4E2A8B7B2F00E99B87 /* BluejayKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = BluejayKit.xcframework; sourceTree = "<group>"; };
+		A9FADB512A8B7B4500E99B87 /* SignalStrengthView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalStrengthView.swift; sourceTree = "<group>"; };
+		A9FADB532A8B7BA100E99B87 /* DeviceRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceRowView.swift; sourceTree = "<group>"; };
+		A9FADB542A8B7BA100E99B87 /* SpeechSynthesizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechSynthesizer.swift; sourceTree = "<group>"; };
+		A9FADB5F2A8B86E000E99B87 /* JumpRopeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpRopeView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A9FADB342A8B7AD500E99B87 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9FADB572A8B7D1600E99B87 /* BlueCentralKit.xcframework in Frameworks */,
+				A9FADB5E2A8B812D00E99B87 /* ActivityIndicatorView in Frameworks */,
+				A9FADB5A2A8B7D1700E99B87 /* BluejayKit.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A9FADB2E2A8B7AD500E99B87 = {
+			isa = PBXGroup;
+			children = (
+				A9FADB392A8B7AD500E99B87 /* SkippingRope */,
+				A9FADB382A8B7AD500E99B87 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A9FADB382A8B7AD500E99B87 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A9FADB372A8B7AD500E99B87 /* SkippingRope.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A9FADB392A8B7AD500E99B87 /* SkippingRope */ = {
+			isa = PBXGroup;
+			children = (
+				A9FADB4C2A8B7B2F00E99B87 /* Frameworks */,
+				A9FADB3A2A8B7AD500E99B87 /* SkippingRopeApp.swift */,
+				A9FADB512A8B7B4500E99B87 /* SignalStrengthView.swift */,
+				A9FADB532A8B7BA100E99B87 /* DeviceRowView.swift */,
+				A9FADB542A8B7BA100E99B87 /* SpeechSynthesizer.swift */,
+				A9FADB3C2A8B7AD500E99B87 /* ContentView.swift */,
+				A9FADB5F2A8B86E000E99B87 /* JumpRopeView.swift */,
+				A9FADB3E2A8B7AD600E99B87 /* Assets.xcassets */,
+				A9FADB402A8B7AD600E99B87 /* Preview Content */,
+			);
+			path = SkippingRope;
+			sourceTree = "<group>";
+		};
+		A9FADB402A8B7AD600E99B87 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				A9FADB412A8B7AD600E99B87 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A9FADB4C2A8B7B2F00E99B87 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A9FADB4D2A8B7B2F00E99B87 /* BlueCentralKit.xcframework */,
+				A9FADB4E2A8B7B2F00E99B87 /* BluejayKit.xcframework */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A9FADB362A8B7AD500E99B87 /* SkippingRope */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9FADB452A8B7AD600E99B87 /* Build configuration list for PBXNativeTarget "SkippingRope" */;
+			buildPhases = (
+				A9FADB332A8B7AD500E99B87 /* Sources */,
+				A9FADB342A8B7AD500E99B87 /* Frameworks */,
+				A9FADB352A8B7AD500E99B87 /* Resources */,
+				A9FADB592A8B7D1600E99B87 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SkippingRope;
+			packageProductDependencies = (
+				A9FADB5D2A8B812D00E99B87 /* ActivityIndicatorView */,
+			);
+			productName = SkippingRope;
+			productReference = A9FADB372A8B7AD500E99B87 /* SkippingRope.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A9FADB2F2A8B7AD500E99B87 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					A9FADB362A8B7AD500E99B87 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+				};
+			};
+			buildConfigurationList = A9FADB322A8B7AD500E99B87 /* Build configuration list for PBXProject "SkippingRope" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A9FADB2E2A8B7AD500E99B87;
+			packageReferences = (
+				A9FADB5C2A8B812D00E99B87 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
+			);
+			productRefGroup = A9FADB382A8B7AD500E99B87 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A9FADB362A8B7AD500E99B87 /* SkippingRope */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A9FADB352A8B7AD500E99B87 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9FADB422A8B7AD600E99B87 /* Preview Assets.xcassets in Resources */,
+				A9FADB3F2A8B7AD600E99B87 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A9FADB332A8B7AD500E99B87 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9FADB3D2A8B7AD500E99B87 /* ContentView.swift in Sources */,
+				A9FADB552A8B7BA100E99B87 /* DeviceRowView.swift in Sources */,
+				A9FADB522A8B7B4600E99B87 /* SignalStrengthView.swift in Sources */,
+				A9FADB3B2A8B7AD500E99B87 /* SkippingRopeApp.swift in Sources */,
+				A9FADB602A8B86E000E99B87 /* JumpRopeView.swift in Sources */,
+				A9FADB562A8B7BA100E99B87 /* SpeechSynthesizer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A9FADB432A8B7AD600E99B87 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A9FADB442A8B7AD600E99B87 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A9FADB462A8B7AD600E99B87 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"SkippingRope/Preview Content\"";
+				DEVELOPMENT_TEAM = BS4TL98W43;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "允许使用蓝牙以便使用跳绳计数功能";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhwayne.SkippingRope;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A9FADB472A8B7AD600E99B87 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"SkippingRope/Preview Content\"";
+				DEVELOPMENT_TEAM = BS4TL98W43;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "允许使用蓝牙以便使用跳绳计数功能";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhwayne.SkippingRope;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A9FADB322A8B7AD500E99B87 /* Build configuration list for PBXProject "SkippingRope" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9FADB432A8B7AD600E99B87 /* Debug */,
+				A9FADB442A8B7AD600E99B87 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9FADB452A8B7AD600E99B87 /* Build configuration list for PBXNativeTarget "SkippingRope" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9FADB462A8B7AD600E99B87 /* Debug */,
+				A9FADB472A8B7AD600E99B87 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A9FADB5C2A8B812D00E99B87 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A9FADB5D2A8B812D00E99B87 /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A9FADB5C2A8B812D00E99B87 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = A9FADB2F2A8B7AD500E99B87 /* Project object */;
+}

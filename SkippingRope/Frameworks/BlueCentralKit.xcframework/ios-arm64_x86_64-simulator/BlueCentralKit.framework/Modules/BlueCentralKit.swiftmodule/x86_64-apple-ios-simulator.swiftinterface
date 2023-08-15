@@ -1,0 +1,497 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.8.1 (swiftlang-5.8.0.124.5 clang-1403.0.22.11.100)
+// swift-module-flags: -target x86_64-apple-ios13.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name BlueCentralKit
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import BluejayKit
+import Combine
+import CommonCrypto
+import CoreBluetooth
+import Foundation
+import Swift
+import SwiftUI
+import _Concurrency
+import _StringProcessing
+import os.log
+import os
+extension BlueCentralKit.SkippingRope {
+  #if compiler(>=5.3) && $AsyncAwait
+  @discardableResult
+  @_Concurrency.MainActor public func deleteRemind(at index: Swift.UInt8, for trainingMode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
+  #endif
+}
+extension BlueCentralKit.SkippingRope {
+  @_Concurrency.MainActor public var trainingModeChanged: Combine.AnyPublisher<BlueCentralKit.SkippingRope.TrainingMode, Swift.Never> {
+    get
+  }
+}
+extension BlueCentralKit.SkippingRope.SystemType : BlueCentralKit.DataEncodable {
+  public func toBluetoothData() -> Foundation.Data
+}
+extension BlueCentralKit.SkippingRope {
+  #if compiler(>=5.3) && $AsyncAwait
+  @discardableResult
+  @_Concurrency.MainActor public func setSystemType(_ type: BlueCentralKit.SkippingRope.SystemType) async throws -> Swift.Bool
+  #endif
+}
+extension Foundation.Data {
+  public func subdata(start: Swift.Int, length: Swift.Int) throws -> Foundation.Data
+}
+extension Foundation.Data {
+  public var prettyDescription: Swift.String {
+    get
+  }
+}
+extension Foundation.Data {
+  public static func combine(_ encodables: [(any BlueCentralKit.DataEncodable)?]) -> Foundation.Data
+}
+extension BlueCentralKit.SkippingRope {
+  public enum Training : Swift.UInt8, BlueCentralKit.DataEncodable {
+    case start
+    case stop
+    case pause
+    case startConfirm
+    public func toBluetoothData() -> Foundation.Data
+    public init?(rawValue: Swift.UInt8)
+    public typealias RawValue = Swift.UInt8
+    public var rawValue: Swift.UInt8 {
+      get
+    }
+  }
+}
+extension BlueCentralKit.SkippingRope {
+  @_Concurrency.MainActor public var isPauseSupported: Swift.Bool {
+    get
+  }
+  #if compiler(>=5.3) && $AsyncAwait
+  @discardableResult
+  @_Concurrency.MainActor public func training(_ payload: BlueCentralKit.SkippingRope.Training) async throws -> Swift.Bool
+  #endif
+}
+extension BlueCentralKit.SkippingRope {
+  #if compiler(>=5.3) && $AsyncAwait
+  @discardableResult
+  @_Concurrency.MainActor public func setRemind(time: Swift.UInt16, for trainingMode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
+  #endif
+}
+extension BlueCentralKit.BlueCentral {
+  @_Concurrency.MainActor final public var isBluetoothAvailable: Swift.Bool {
+    get
+  }
+  @_Concurrency.MainActor final public var isScanning: Swift.Bool {
+    get
+  }
+  @_Concurrency.MainActor final public var authorization: CoreBluetooth.CBManagerAuthorization {
+    get
+  }
+  @_Concurrency.MainActor public static func maximumWriteValueLength(for writeType: CoreBluetooth.CBCharacteristicWriteType) throws -> Swift.Int
+}
+extension BlueCentralKit.BlueCentral {
+  public typealias ScanCallback = (_ allDeviceDiscoveries: [BlueCentralKit.DeviceDiscovery]) -> Swift.Void
+  public typealias ScanStopped = (_ result: Swift.Result<[BlueCentralKit.DeviceDiscovery], any Swift.Error>) -> Swift.Void
+  @_Concurrency.MainActor final public func scan(deviceModels: [BlueCentralKit.DeviceModel]? = nil, duration: Foundation.TimeInterval = 0, allowDuplicates: Swift.Bool = true, throttling: BlueCentralKit.ScanThrottling = .throttleRSSIDelta(1), callback: @escaping BlueCentralKit.BlueCentral.ScanCallback, stopped: BlueCentralKit.BlueCentral.ScanStopped? = nil)
+  @_Concurrency.MainActor final public func stopScanning()
+  #if compiler(>=5.3) && $AsyncAwait
+  @_Concurrency.MainActor final public func connect(discovery: BlueCentralKit.DeviceDiscovery) async throws
+  #endif
+  #if compiler(>=5.3) && $AsyncAwait
+  @_Concurrency.MainActor final public func disconnect() async throws
+  #endif
+}
+public enum ScanThrottling {
+  case throttleRSSIDelta(Swift.Int)
+  case everySeconds(Foundation.TimeInterval)
+}
+extension BlueCentralKit.SkippingRope {
+  #if compiler(>=5.3) && $AsyncAwait
+  @_Concurrency.MainActor public func shutdown() async throws
+  #endif
+}
+public enum DeviceModel : Swift.CaseIterable {
+  case skippingRopeQ3
+  case skippingRopeQ3SE
+  case skippingRopeB3
+  case skippingRopeB3SE
+  case skippingRopeS44G
+  public static func == (a: BlueCentralKit.DeviceModel, b: BlueCentralKit.DeviceModel) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public typealias AllCases = [BlueCentralKit.DeviceModel]
+  public static var allCases: [BlueCentralKit.DeviceModel] {
+    get
+  }
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension BlueCentralKit.DeviceModel {
+  public var name: Swift.String {
+    get
+  }
+  public var productName: Swift.String {
+    get
+  }
+  public var modelID: Swift.Int {
+    get
+  }
+}
+extension BlueCentralKit.DeviceModel {
+  public init?(name: Swift.String)
+  public init?(modelID: Swift.Int)
+}
+extension BlueCentralKit.DeviceModel {
+  public static var allSkippingRope: [BlueCentralKit.DeviceModel] {
+    get
+  }
+  public func isIn(_ models: [BlueCentralKit.DeviceModel]) -> Swift.Bool
+}
+extension BlueCentralKit.SkippingRope.TrainingMode : BlueCentralKit.DataEncodable {
+  public func toBluetoothData() -> Foundation.Data
+}
+extension BlueCentralKit.SkippingRope {
+  #if compiler(>=5.3) && $AsyncAwait
+  @discardableResult
+  @_Concurrency.MainActor public func setMode(_ mode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
+  #endif
+}
+extension BlueCentralKit.SkippingRope {
+  #if compiler(>=5.3) && $AsyncAwait
+  @discardableResult
+  @_Concurrency.MainActor public func modifiyName(_ name: Swift.String) async throws -> Swift.Bool
+  #endif
+}
+extension BlueCentralKit.SkippingRope {
+  #if compiler(>=5.3) && $AsyncAwait
+  @discardableResult
+  @_Concurrency.MainActor public func setMute(_ isMute: Swift.Bool, for trainingMode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
+  #endif
+}
+public protocol DataEncodable : BluejayKit.Sendable {
+}
+public protocol DataDecodable : BluejayKit.Receivable {
+}
+public typealias DataCodable = BlueCentralKit.DataDecodable & BlueCentralKit.DataEncodable
+extension Foundation.Data : BlueCentralKit.DataCodable {
+}
+extension Swift.String : BlueCentralKit.DataCodable {
+}
+extension Swift.Int64 : BlueCentralKit.DataCodable {
+}
+extension Swift.Int32 : BlueCentralKit.DataCodable {
+}
+extension Swift.Int16 : BlueCentralKit.DataCodable {
+}
+extension Swift.Int8 : BlueCentralKit.DataCodable {
+}
+extension Swift.UInt64 : BlueCentralKit.DataCodable {
+}
+extension Swift.UInt32 : BlueCentralKit.DataCodable {
+}
+extension Swift.UInt16 : BlueCentralKit.DataCodable {
+}
+extension Swift.UInt8 : BlueCentralKit.DataCodable {
+}
+extension Swift.Bool : BluejayKit.Sendable, BluejayKit.Receivable, BlueCentralKit.DataCodable {
+  public func toBluetoothData() -> Foundation.Data
+  public init(bluetoothData: Foundation.Data)
+}
+public protocol Message : BlueCentralKit.DataDecodable, BlueCentralKit.DataEncodable {
+  var payload: Foundation.Data? { get }
+}
+extension BlueCentralKit.SkippingRope {
+  #if compiler(>=5.3) && $AsyncAwait
+  @discardableResult
+  @_Concurrency.MainActor public func lockingDirection(_ isLocking: Swift.Bool) async throws -> Swift.Bool
+  #endif
+}
+extension BlueCentralKit.SkippingRope {
+  #if compiler(>=5.3) && $AsyncAwait
+  @_Concurrency.MainActor public func synchronize() async throws
+  #endif
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor public class SkippingRope : BlueCentralKit.Device {
+  public func didConnected()
+  @objc deinit
+}
+extension BlueCentralKit.SkippingRope {
+  public struct OfflineData : BlueCentralKit.DataDecodable {
+    public let trainingMode: BlueCentralKit.SkippingRope.TrainingMode
+    public let count: Swift.UInt16
+    public let interruptionTimes: Swift.UInt16
+    public var time: Swift.Int {
+      get
+    }
+    public let seconds: Swift.UInt16
+    public let milliseconds: Swift.UInt16
+    public init(bluetoothData: Foundation.Data) throws
+  }
+}
+extension BlueCentralKit.SkippingRope {
+  #if compiler(>=5.3) && $AsyncAwait
+  @discardableResult
+  @_Concurrency.MainActor public func popOfflineData() async throws -> [BlueCentralKit.SkippingRope.OfflineData]
+  #endif
+}
+extension BlueCentralKit.SkippingRope {
+  public enum SystemType : Swift.UInt8, BlueCentralKit.DataDecodable {
+    case dlcmd
+    case ylcmd
+    case none
+    public init(bluetoothData: Foundation.Data) throws
+    public init?(rawValue: Swift.UInt8)
+    public typealias RawValue = Swift.UInt8
+    public var rawValue: Swift.UInt8 {
+      get
+    }
+  }
+  public enum TrainingMode : Swift.UInt8, BlueCentralKit.DataDecodable, Swift.CaseIterable {
+    case freedom
+    case examOrFixedTime
+    case matchOrFixedCount
+    case physical
+    public init(bluetoothData: Foundation.Data) throws
+    public init?(rawValue: Swift.UInt8)
+    public typealias AllCases = [BlueCentralKit.SkippingRope.TrainingMode]
+    public typealias RawValue = Swift.UInt8
+    public static var allCases: [BlueCentralKit.SkippingRope.TrainingMode] {
+      get
+    }
+    public var rawValue: Swift.UInt8 {
+      get
+    }
+  }
+  public enum LockMode : Swift.UInt8, BlueCentralKit.DataDecodable {
+    case lockRight
+    case none
+    public init(bluetoothData: Foundation.Data) throws
+    public init?(rawValue: Swift.UInt8)
+    public typealias RawValue = Swift.UInt8
+    public var rawValue: Swift.UInt8 {
+      get
+    }
+  }
+  public enum CountingDownType : Swift.UInt8, BlueCentralKit.DataDecodable {
+    case time
+    case count
+    public init(bluetoothData: Foundation.Data) throws
+    public init?(rawValue: Swift.UInt8)
+    public typealias RawValue = Swift.UInt8
+    public var rawValue: Swift.UInt8 {
+      get
+    }
+  }
+}
+extension BlueCentralKit.DeviceKey {
+  public static let skippingRope: BlueCentralKit.SkippingRopeDeviceKey
+}
+public struct SkippingRopeDeviceKey {
+  public let systemType: BlueCentralKit.DeviceKey
+  public let trainingMode: BlueCentralKit.DeviceKey
+  public let mute: BlueCentralKit.DeviceKey
+  public let lockMode: BlueCentralKit.DeviceKey
+  public let countingDownType: BlueCentralKit.DeviceKey
+  public let examTime: BlueCentralKit.DeviceKey
+  public let matchTime: BlueCentralKit.DeviceKey
+  public let matchCount: BlueCentralKit.DeviceKey
+  public let physicalTime: BlueCentralKit.DeviceKey
+  public let physicalCount: BlueCentralKit.DeviceKey
+  public let needsReset: BlueCentralKit.DeviceKey
+}
+public enum BlueCentralError : Swift.Error {
+  case invalidData
+  case writeTimeout
+  case otaEraseSectorFailed
+  case otaWriteDataFailed
+  case otaRebootFailed
+  public static func == (a: BlueCentralKit.BlueCentralError, b: BlueCentralKit.BlueCentralError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension BlueCentralKit.BlueCentralError : Foundation.LocalizedError {
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+extension BlueCentralKit.BlueCentralError : Foundation.CustomNSError {
+  public static var errorDomain: Swift.String {
+    get
+  }
+  public var errorCode: Swift.Int {
+    get
+  }
+  public var errorUserInfo: [Swift.String : Any] {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class Device : Foundation.ObservableObject, @unchecked Swift.Sendable {
+  @Combine.Published @_projectedValueProperty($name) public var name: Swift.String {
+    get
+  }
+  public var $name: Combine.Published<Swift.String>.Publisher {
+    get
+  }
+  final public let mac: Swift.String
+  final public let model: BlueCentralKit.DeviceModel
+  @Combine.Published @_projectedValueProperty($userInfo) public var userInfo: [BlueCentralKit.DeviceKey : Any] {
+    get
+  }
+  public var $userInfo: Combine.Published<[BlueCentralKit.DeviceKey : Any]>.Publisher {
+    get
+  }
+  final public let scanDiscovery: BluejayKit.ScanDiscovery
+  public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
+  @objc deinit
+}
+extension BlueCentralKit.Device : Swift.Hashable {
+  public static func == (lhs: BlueCentralKit.Device, rhs: BlueCentralKit.Device) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct DeviceDiscovery : Swift.Hashable {
+  public let device: BlueCentralKit.Device
+  public let scanDiscovery: BluejayKit.ScanDiscovery
+  public init?(_ scanDiscovery: BluejayKit.ScanDiscovery, expectedModel: BlueCentralKit.DeviceModel? = nil)
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: BlueCentralKit.DeviceDiscovery, b: BlueCentralKit.DeviceDiscovery) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension BlueCentralKit.SkippingRope {
+  public struct TrainingData : BlueCentralKit.DataDecodable {
+    public let trainingMode: BlueCentralKit.SkippingRope.TrainingMode
+    public let count: Swift.UInt16
+    public var time: Swift.Int {
+      get
+    }
+    public let interruptionTimes: Swift.UInt16
+    public let seconds: Swift.UInt16
+    public let milliseconds: Swift.UInt16
+    public let flag: Swift.UInt8
+    public init(bluetoothData: Foundation.Data) throws
+  }
+}
+extension BlueCentralKit.SkippingRope {
+  @_Concurrency.MainActor public var dataUpadte: Combine.AnyPublisher<BlueCentralKit.SkippingRope.TrainingData, Swift.Never> {
+    get
+  }
+}
+extension BlueCentralKit.SkippingRope {
+  @_Concurrency.MainActor public func parepareForOTAUpgrade()
+  @_Concurrency.MainActor public func cancelOTAUpgrade()
+  #if compiler(>=5.3) && $AsyncAwait
+  @_Concurrency.MainActor public func upgrade(fileURL: Foundation.URL, progress: (Swift.Double) -> Swift.Void) async throws
+  #endif
+}
+extension BlueCentralKit.SkippingRope {
+  #if compiler(>=5.3) && $AsyncAwait
+  @discardableResult
+  @_Concurrency.MainActor public func setPrams(countingMode: BlueCentralKit.CountingMode, for trainingMode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
+  #endif
+}
+public struct DeviceKey : Swift.Hashable, Swift.Comparable, Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+  public init(rawVlue: Swift.String, localizedDescription: Swift.String? = nil)
+  public static func < (lhs: BlueCentralKit.DeviceKey, rhs: BlueCentralKit.DeviceKey) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public static func == (a: BlueCentralKit.DeviceKey, b: BlueCentralKit.DeviceKey) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension BlueCentralKit.DeviceKey {
+  public static let name: BlueCentralKit.DeviceKey
+  public static let mac: BlueCentralKit.DeviceKey
+  public static let modal: BlueCentralKit.DeviceKey
+  public static let firmwareVersion: BlueCentralKit.DeviceKey
+  public static let electricity: BlueCentralKit.DeviceKey
+}
+extension BluejayKit.ScanDiscovery : Swift.Hashable {
+  public static func == (lhs: BluejayKit.ScanDiscovery, rhs: BluejayKit.ScanDiscovery) -> Swift.Bool
+  public var advDataLocalName: Swift.String {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum CountingMode : Swift.Equatable {
+  case time(Swift.Int)
+  case count(Swift.Int)
+  case unlimited
+  public static func == (a: BlueCentralKit.CountingMode, b: BlueCentralKit.CountingMode) -> Swift.Bool
+}
+@_hasMissingDesignatedInitializers @_Concurrency.MainActor final public class BlueCentral : Foundation.ObservableObject {
+  @_Concurrency.MainActor public static let shared: BlueCentralKit.BlueCentral
+  @_Concurrency.MainActor final public var connectingDevice: BlueCentralKit.Device? {
+    get
+  }
+  @_Concurrency.MainActor final public var device: BlueCentralKit.Device? {
+    get
+  }
+  @Combine.Published @_projectedValueProperty($connectionStatus) @_Concurrency.MainActor final public var connectionStatus: BlueCentralKit.BlueCentral.ConnectionStatus {
+    get
+  }
+  @_Concurrency.MainActor final public var $connectionStatus: Combine.Published<BlueCentralKit.BlueCentral.ConnectionStatus>.Publisher {
+    get
+  }
+  @Combine.Published @_projectedValueProperty($cbState) @_Concurrency.MainActor final public var cbState: CoreBluetooth.CBManagerState {
+    get
+  }
+  @_Concurrency.MainActor final public var $cbState: Combine.Published<CoreBluetooth.CBManagerState>.Publisher {
+    get
+  }
+  public typealias ObjectWillChangePublisher = Combine.ObservableObjectPublisher
+  @objc deinit
+}
+extension BlueCentralKit.BlueCentral {
+  public enum ConnectionStatus : Swift.Equatable {
+    case connected
+    case connecting
+    case disconnected
+    public func hash(into hasher: inout Swift.Hasher)
+    public static func == (a: BlueCentralKit.BlueCentral.ConnectionStatus, b: BlueCentralKit.BlueCentral.ConnectionStatus) -> Swift.Bool
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+}
+extension BlueCentralKit.BlueCentral : BluejayKit.ConnectionObserver {
+  @_Concurrency.MainActor final public func bluetoothAvailable(_ available: Swift.Bool)
+  @_Concurrency.MainActor final public func connected(to peripheral: BluejayKit.PeripheralIdentifier)
+  @_Concurrency.MainActor final public func disconnected(from peripheral: BluejayKit.PeripheralIdentifier)
+}
+extension BlueCentralKit.BlueCentral : BluejayKit.DisconnectHandler {
+  @_Concurrency.MainActor final public func didDisconnect(from peripheral: BluejayKit.PeripheralIdentifier, with error: (any Swift.Error)?, willReconnect autoReconnect: Swift.Bool) -> BluejayKit.AutoReconnectMode
+}
+extension BlueCentralKit.SkippingRope {
+  #if compiler(>=5.3) && $AsyncAwait
+  @_Concurrency.MainActor public func queryRemind(for mode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> [Swift.UInt16]
+  #endif
+}
+extension BlueCentralKit.SkippingRope.SystemType : Swift.Equatable {}
+extension BlueCentralKit.SkippingRope.SystemType : Swift.Hashable {}
+extension BlueCentralKit.SkippingRope.SystemType : Swift.RawRepresentable {}
+extension BlueCentralKit.SkippingRope.Training : Swift.Equatable {}
+extension BlueCentralKit.SkippingRope.Training : Swift.Hashable {}
+extension BlueCentralKit.SkippingRope.Training : Swift.RawRepresentable {}
+extension BlueCentralKit.BlueCentral : Swift.Sendable {}
+extension BlueCentralKit.DeviceModel : Swift.Equatable {}
+extension BlueCentralKit.DeviceModel : Swift.Hashable {}
+extension BlueCentralKit.SkippingRope.TrainingMode : Swift.Equatable {}
+extension BlueCentralKit.SkippingRope.TrainingMode : Swift.Hashable {}
+extension BlueCentralKit.SkippingRope.TrainingMode : Swift.RawRepresentable {}
+extension BlueCentralKit.SkippingRope.LockMode : Swift.Equatable {}
+extension BlueCentralKit.SkippingRope.LockMode : Swift.Hashable {}
+extension BlueCentralKit.SkippingRope.LockMode : Swift.RawRepresentable {}
+extension BlueCentralKit.SkippingRope.CountingDownType : Swift.Equatable {}
+extension BlueCentralKit.SkippingRope.CountingDownType : Swift.Hashable {}
+extension BlueCentralKit.SkippingRope.CountingDownType : Swift.RawRepresentable {}
+extension BlueCentralKit.BlueCentralError : Swift.Equatable {}
+extension BlueCentralKit.BlueCentralError : Swift.Hashable {}
+extension BlueCentralKit.BlueCentral.ConnectionStatus : Swift.Hashable {}

@@ -1,0 +1,412 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.8.1 (swiftlang-5.8.0.124.5 clang-1403.0.22.11.100)
+// swift-module-flags: -target arm64-apple-ios13.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name BluejayKit
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import CoreBluetooth
+import Foundation
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+@objc @_hasMissingDesignatedInitializers public class Peripheral : ObjectiveC.NSObject {
+  @objc deinit
+  public var identifier: BluejayKit.PeripheralIdentifier {
+    get
+  }
+  public func read<R>(from characteristicIdentifier: BluejayKit.CharacteristicIdentifier, completion: @escaping (BluejayKit.ReadResult<R>) -> Swift.Void) where R : BluejayKit.Receivable
+  public func write<S>(to characteristicIdentifier: BluejayKit.CharacteristicIdentifier, value: S, type: CoreBluetooth.CBCharacteristicWriteType = .withResponse, completion: @escaping (BluejayKit.WriteResult) -> Swift.Void) where S : BluejayKit.Sendable
+  public func isListening(to characteristicIdentifier: BluejayKit.CharacteristicIdentifier) -> Swift.Bool
+  public func listen<R>(to characteristicIdentifier: BluejayKit.CharacteristicIdentifier, multipleListenOption option: BluejayKit.MultipleListenOption, completion: @escaping (BluejayKit.ReadResult<R>) -> Swift.Void) where R : BluejayKit.Receivable
+  public func endListen(to characteristicIdentifier: BluejayKit.CharacteristicIdentifier, error: (any Swift.Error)? = nil, completion: ((BluejayKit.WriteResult) -> Swift.Void)? = nil)
+  public func maximumWriteValueLength(for writeType: CoreBluetooth.CBCharacteristicWriteType) -> Swift.Int
+}
+extension BluejayKit.Peripheral : CoreBluetooth.CBPeripheralDelegate {
+  @objc dynamic public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverServices error: (any Swift.Error)?)
+  @objc dynamic public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverCharacteristicsFor service: CoreBluetooth.CBService, error: (any Swift.Error)?)
+  @objc dynamic public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didWriteValueFor characteristic: CoreBluetooth.CBCharacteristic, error: (any Swift.Error)?)
+  @objc dynamic public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateValueFor characteristic: CoreBluetooth.CBCharacteristic, error: (any Swift.Error)?)
+  @objc dynamic public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateNotificationStateFor characteristic: CoreBluetooth.CBCharacteristic, error: (any Swift.Error)?)
+  @objc dynamic public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didReadRSSI RSSI: Foundation.NSNumber, error: (any Swift.Error)?)
+  @objc dynamic public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didModifyServices invalidatedServices: [CoreBluetooth.CBService])
+}
+public struct CharacteristicIdentifier {
+  public let service: BluejayKit.ServiceIdentifier
+  public let uuid: CoreBluetooth.CBUUID
+  public init?(_ cbCharacteristic: CoreBluetooth.CBCharacteristic)
+  public var description: Swift.String {
+    get
+  }
+  public init(uuid: Swift.String, service: BluejayKit.ServiceIdentifier)
+  public init(uuid: CoreBluetooth.CBUUID, service: BluejayKit.ServiceIdentifier)
+  public static func == (lhs: BluejayKit.CharacteristicIdentifier, rhs: CoreBluetooth.CBCharacteristic) -> Swift.Bool
+}
+extension BluejayKit.CharacteristicIdentifier : Swift.Hashable {
+  public static func == (lhs: BluejayKit.CharacteristicIdentifier, rhs: BluejayKit.CharacteristicIdentifier) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension Foundation.Data : BluejayKit.Sendable {
+  public func toBluetoothData() -> Foundation.Data
+}
+extension Foundation.Data : BluejayKit.Receivable {
+  public init(bluetoothData: Foundation.Data)
+}
+public protocol ServiceObserver : AnyObject {
+  func didModifyServices(from peripheral: BluejayKit.PeripheralIdentifier, invalidatedServices: [BluejayKit.ServiceIdentifier])
+}
+public struct ServiceIdentifier {
+  public var uuid: CoreBluetooth.CBUUID {
+    get
+  }
+  public init(uuid: Swift.String)
+  public init(uuid: CoreBluetooth.CBUUID)
+}
+extension BluejayKit.ServiceIdentifier : Swift.Hashable {
+  public static func == (lhs: BluejayKit.ServiceIdentifier, rhs: BluejayKit.ServiceIdentifier) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum ReadResult<R> {
+  case success(R)
+  case failure(any Swift.Error)
+}
+public enum DisconnectionResult {
+  case disconnected(BluejayKit.PeripheralIdentifier)
+  case failure(any Swift.Error)
+}
+public struct ScanDiscovery {
+  public let peripheralIdentifier: BluejayKit.PeripheralIdentifier
+  public let advertisementPacket: [Swift.String : Any]
+  public let rssi: Swift.Int
+}
+@available(iOS 10.0, *)
+extension CoreBluetooth.CBManagerState {
+  public func string() -> Swift.String
+}
+public enum ConnectionResult {
+  case success(BluejayKit.PeripheralIdentifier)
+  case failure(any Swift.Error)
+}
+public enum MultipleListenOption : Swift.Int {
+  case trap
+  case replaceable
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum ListenAction {
+  case keepListening
+  case done
+  public static func == (a: BluejayKit.ListenAction, b: BluejayKit.ListenAction) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+extension CoreBluetooth.CBService {
+  public func characteristic(with uuid: CoreBluetooth.CBUUID) -> CoreBluetooth.CBCharacteristic?
+}
+public struct WarningOptions {
+  public static let `default`: BluejayKit.WarningOptions
+  public init(notifyOnConnection: Swift.Bool, notifyOnDisconnection: Swift.Bool, notifyOnNotification: Swift.Bool)
+}
+public typealias ListenCallback = (BluejayKit.ReadResult<Foundation.Data?>) -> Swift.Void
+public struct PeripheralIdentifier {
+  public let uuid: Foundation.UUID
+  public let name: Swift.String
+  public var description: Swift.String {
+    get
+  }
+  public init(uuid: Foundation.UUID, name: Swift.String?)
+}
+extension BluejayKit.PeripheralIdentifier : Swift.Hashable {
+  public static func == (lhs: BluejayKit.PeripheralIdentifier, rhs: BluejayKit.PeripheralIdentifier) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum BluejayError {
+  case bluetoothUnavailable
+  case multipleScanNotSupported
+  case multipleConnectNotSupported
+  case multipleDisconnectNotSupported
+  case connectionTimedOut
+  case notConnected
+  case missingService(BluejayKit.ServiceIdentifier)
+  case missingCharacteristic(BluejayKit.CharacteristicIdentifier)
+  case cancelled
+  case explicitDisconnect
+  case unexpectedDisconnect
+  case disconnectQueued
+  case listenTimedOut
+  case readFailed
+  case writeFailed
+  case missingData
+  case dataOutOfBounds(start: Swift.Int, length: Swift.Int, count: Swift.Int)
+  case unexpectedPeripheral(BluejayKit.PeripheralIdentifier)
+  case allowDuplicatesInBackgroundNotSupported
+  case missingServiceIdentifiersInBackground
+  case backgroundTaskRunning
+  case multipleBackgroundTaskNotSupported
+  case indefiniteFlush
+  case stopped
+  case backgroundRestorationInProgress
+  case startupBackgroundTaskExpired
+  case multipleListenTrapped
+  case multipleListenReplaced
+  case tooMuchData(expected: Swift.Int, received: Foundation.Data)
+}
+extension BluejayKit.BluejayError : Foundation.LocalizedError {
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+extension BluejayKit.BluejayError : Foundation.CustomNSError {
+  public static var errorDomain: Swift.String {
+    get
+  }
+  public var errorCode: Swift.Int {
+    get
+  }
+  public var errorUserInfo: [Swift.String : Any] {
+    get
+  }
+}
+public protocol RSSIObserver : AnyObject {
+  func didReadRSSI(from peripheral: BluejayKit.PeripheralIdentifier, RSSI: Foundation.NSNumber, error: (any Swift.Error)?)
+}
+public struct DataPadding : BluejayKit.Sendable {
+  public init(_ amount: Swift.Int)
+  public func toBluetoothData() -> Foundation.Data
+}
+public struct StartOptions {
+  public init(enableBluetoothAlert: Swift.Bool, backgroundRestore: BluejayKit.BackgroundRestoreMode)
+  public static var `default`: BluejayKit.StartOptions {
+    get
+  }
+}
+public enum StartMode {
+  case new(BluejayKit.StartOptions)
+  case use(manager: CoreBluetooth.CBCentralManager, peripheral: CoreBluetooth.CBPeripheral?)
+}
+extension CoreBluetooth.CBPeripheral {
+  public func service(with uuid: CoreBluetooth.CBUUID) -> CoreBluetooth.CBService?
+}
+public enum WriteResult {
+  case success
+  case failure(any Swift.Error)
+}
+public struct BackgroundRestoreConfig {
+  public let restoreIdentifier: BluejayKit.RestoreIdentifier
+  public let backgroundRestorer: any BluejayKit.BackgroundRestorer
+  public let listenRestorer: any BluejayKit.ListenRestorer
+  public let launchOptions: BluejayKit.LaunchOptions
+  public var centralKeys: [Swift.String]? {
+    get
+  }
+  public var isRestoringFromBackground: Swift.Bool {
+    get
+  }
+  public init(restoreIdentifier: BluejayKit.RestoreIdentifier, backgroundRestorer: any BluejayKit.BackgroundRestorer, listenRestorer: any BluejayKit.ListenRestorer, launchOptions: BluejayKit.LaunchOptions)
+}
+public typealias RestoreIdentifier = Swift.String
+public typealias LaunchOptions = [UIKit.UIApplication.LaunchOptionsKey : Any]?
+public protocol Sendable {
+  func toBluetoothData() -> Foundation.Data
+}
+public enum ScanAction {
+  case `continue`
+  case blacklist
+  case stop
+  case connect(BluejayKit.ScanDiscovery, BluejayKit.Timeout, BluejayKit.WarningOptions, (BluejayKit.ConnectionResult) -> Swift.Void)
+}
+extension Foundation.Data {
+  @available(*, unavailable, message: "该方法可能会导致数据加载错误，并引发崩溃，不建议使用")
+  public func extract<T>(start: Swift.Int, length: Swift.Int) throws -> T
+}
+extension Swift.String {
+  public init(bluetoothData: Foundation.Data)
+  public func toBluetoothData() -> Foundation.Data
+}
+extension Swift.String : BluejayKit.Sendable, BluejayKit.Receivable {
+}
+public protocol BackgroundRestorer : UIKit.UIApplicationDelegate {
+  func didRestoreConnection(to peripheral: BluejayKit.PeripheralIdentifier) -> BluejayKit.BackgroundRestoreCompletion
+  func didFailToRestoreConnection(to peripheral: BluejayKit.PeripheralIdentifier, error: any Swift.Error) -> BluejayKit.BackgroundRestoreCompletion
+}
+public enum BackgroundRestoreCompletion {
+  case callback(() -> Swift.Void)
+  case `continue`
+}
+public protocol LogObserver : AnyObject {
+  func debug(_ text: Swift.String)
+}
+@_hasMissingDesignatedInitializers public class SynchronizedPeripheral {
+  @objc deinit
+  public func read<R>(from characteristicIdentifier: BluejayKit.CharacteristicIdentifier) throws -> R where R : BluejayKit.Receivable
+  public func write<S>(to characteristicIdentifier: BluejayKit.CharacteristicIdentifier, value: S, type: CoreBluetooth.CBCharacteristicWriteType = .withResponse) throws where S : BluejayKit.Sendable
+  public func writeAndRead<R, S>(writeTo: BluejayKit.CharacteristicIdentifier, value: S, type: CoreBluetooth.CBCharacteristicWriteType = .withResponse, readFrom: BluejayKit.CharacteristicIdentifier) throws -> R where R : BluejayKit.Receivable, S : BluejayKit.Sendable
+  public func listen<R>(to characteristicIdentifier: BluejayKit.CharacteristicIdentifier, timeout: BluejayKit.Timeout = .none, completion: @escaping (R) -> BluejayKit.ListenAction) throws where R : BluejayKit.Receivable
+  public func endListen(to characteristicIdentifier: BluejayKit.CharacteristicIdentifier, error: (any Swift.Error)? = nil, completion: ((BluejayKit.WriteResult) -> Swift.Void)? = nil) throws
+  public func flushListen(to characteristicIdentifier: BluejayKit.CharacteristicIdentifier, nonZeroTimeout: BluejayKit.Timeout = .seconds(3), completion: @escaping () -> Swift.Void) throws
+  public func writeAndListen<S, R>(writeTo charToWriteTo: BluejayKit.CharacteristicIdentifier, value: S, type: CoreBluetooth.CBCharacteristicWriteType = .withResponse, listenTo charToListenTo: BluejayKit.CharacteristicIdentifier, timeoutInSeconds: Swift.Int = 0, completion: @escaping (R) -> BluejayKit.ListenAction) throws where S : BluejayKit.Sendable, R : BluejayKit.Receivable
+  public func writeAndAssemble<S, R>(writeTo charToWriteTo: BluejayKit.CharacteristicIdentifier, value: S, listenTo charToListenTo: BluejayKit.CharacteristicIdentifier, expectedLength: Swift.Int, timeoutInSeconds: Swift.Int = 0, completion: @escaping (R) -> BluejayKit.ListenAction) throws where S : BluejayKit.Sendable, R : BluejayKit.Receivable
+  public func maximumWriteValueLength(for writeType: CoreBluetooth.CBCharacteristicWriteType) -> Swift.Int
+}
+extension BluejayKit.SynchronizedPeripheral : BluejayKit.ConnectionObserver {
+  public func bluetoothAvailable(_ available: Swift.Bool)
+  public func disconnected(from peripheral: BluejayKit.PeripheralIdentifier)
+}
+public enum Timeout {
+  case seconds(Foundation.TimeInterval)
+  case none
+}
+extension Swift.BinaryInteger {
+  public func toBluetoothData() -> Foundation.Data
+  public init(bluetoothData: Foundation.Data)
+}
+extension Swift.Int64 : BluejayKit.Sendable, BluejayKit.Receivable {
+}
+extension Swift.Int32 : BluejayKit.Sendable, BluejayKit.Receivable {
+}
+extension Swift.Int16 : BluejayKit.Sendable, BluejayKit.Receivable {
+}
+extension Swift.Int8 : BluejayKit.Sendable, BluejayKit.Receivable {
+}
+extension Swift.UInt64 : BluejayKit.Sendable, BluejayKit.Receivable {
+}
+extension Swift.UInt32 : BluejayKit.Sendable, BluejayKit.Receivable {
+}
+extension Swift.UInt16 : BluejayKit.Sendable, BluejayKit.Receivable {
+}
+extension Swift.UInt8 : BluejayKit.Sendable, BluejayKit.Receivable {
+}
+extension CoreBluetooth.CBPeripheralState {
+  public func string() -> Swift.String
+}
+public protocol ConnectionObserver : AnyObject {
+  func bluetoothAvailable(_ available: Swift.Bool)
+  func connected(to peripheral: BluejayKit.PeripheralIdentifier)
+  func disconnected(from peripheral: BluejayKit.PeripheralIdentifier)
+}
+extension BluejayKit.ConnectionObserver {
+  public func bluetoothAvailable(_ available: Swift.Bool)
+  public func connected(to peripheral: BluejayKit.PeripheralIdentifier)
+  public func disconnected(from peripheral: BluejayKit.PeripheralIdentifier)
+}
+public protocol ListenRestorer : UIKit.UIApplicationDelegate {
+  func didReceiveUnhandledListen(from peripheral: BluejayKit.PeripheralIdentifier, on characteristic: BluejayKit.CharacteristicIdentifier, with value: Foundation.Data?) -> BluejayKit.ListenRestoreAction
+}
+public enum ListenRestoreAction {
+  case promiseRestoration
+  case stopListen
+  public static func == (a: BluejayKit.ListenRestoreAction, b: BluejayKit.ListenRestoreAction) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@objc public class Bluejay : ObjectiveC.NSObject {
+  final public let uuid: Foundation.UUID
+  public var isBluetoothAvailable: Swift.Bool {
+    get
+  }
+  public var isBluetoothStateUpdateImminent: Swift.Bool {
+    get
+  }
+  public var isConnecting: Swift.Bool {
+    get
+  }
+  public var isConnected: Swift.Bool {
+    get
+  }
+  public var isDisconnecting: Swift.Bool {
+    get
+  }
+  public var shouldAutoReconnect: Swift.Bool {
+    get
+  }
+  public var isScanning: Swift.Bool {
+    get
+  }
+  public var hasStarted: Swift.Bool {
+    get
+  }
+  public var defaultWarningOptions: BluejayKit.WarningOptions {
+    get
+  }
+  public var isBackgroundRestorationEnabled: Swift.Bool {
+    get
+  }
+  public var broadcastErrorsToListeners: Swift.Bool
+  public init(logObserver: (any BluejayKit.LogObserver)? = nil)
+  @objc deinit
+  public func start(mode: BluejayKit.StartMode = .new(.default))
+  public func stopAndExtractBluetoothState() -> (manager: CoreBluetooth.CBCentralManager, peripheral: CoreBluetooth.CBPeripheral?)
+  public func cancelEverything(error: any Swift.Error = BluejayError.cancelled, shouldDisconnect: Swift.Bool = true)
+  public func register(connectionObserver: any BluejayKit.ConnectionObserver)
+  public func unregister(connectionObserver: any BluejayKit.ConnectionObserver)
+  public func register(rssiObserver: any BluejayKit.RSSIObserver)
+  public func unregister(rssiObserver: any BluejayKit.RSSIObserver)
+  public func register(serviceObserver: any BluejayKit.ServiceObserver)
+  public func unregister(serviceObserver: any BluejayKit.ServiceObserver)
+  public func register(logObserver: any BluejayKit.LogObserver)
+  public func unregister(logObserver: any BluejayKit.LogObserver)
+  public func registerDisconnectHandler(handler: any BluejayKit.DisconnectHandler)
+  public func unregisterDisconnectHandler()
+  public func scan(duration: Foundation.TimeInterval = 0, allowDuplicates: Swift.Bool = false, throttleRSSIDelta: Swift.Int = 5, serviceIdentifiers: [BluejayKit.ServiceIdentifier]?, discovery: @escaping (BluejayKit.ScanDiscovery, [BluejayKit.ScanDiscovery]) -> BluejayKit.ScanAction, expired: ((BluejayKit.ScanDiscovery, [BluejayKit.ScanDiscovery]) -> BluejayKit.ScanAction)? = nil, stopped: @escaping ([BluejayKit.ScanDiscovery], (any Swift.Error)?) -> Swift.Void)
+  public func stopScanning()
+  public func connect(_ peripheralIdentifier: BluejayKit.PeripheralIdentifier, timeout: BluejayKit.Timeout = .none, warningOptions: BluejayKit.WarningOptions? = nil, completion: @escaping (BluejayKit.ConnectionResult) -> Swift.Void)
+  public func disconnect(immediate: Swift.Bool = false, completion: ((BluejayKit.DisconnectionResult) -> Swift.Void)? = nil)
+  public func read<R>(from characteristicIdentifier: BluejayKit.CharacteristicIdentifier, completion: @escaping (BluejayKit.ReadResult<R>) -> Swift.Void) where R : BluejayKit.Receivable
+  public func write<S>(to characteristicIdentifier: BluejayKit.CharacteristicIdentifier, value: S, type: CoreBluetooth.CBCharacteristicWriteType = .withResponse, completion: @escaping (BluejayKit.WriteResult) -> Swift.Void) where S : BluejayKit.Sendable
+  public func listen<R>(to characteristicIdentifier: BluejayKit.CharacteristicIdentifier, multipleListenOption option: BluejayKit.MultipleListenOption = .trap, completion: @escaping (BluejayKit.ReadResult<R>) -> Swift.Void) where R : BluejayKit.Receivable
+  public func endListen(to characteristicIdentifier: BluejayKit.CharacteristicIdentifier, completion: ((BluejayKit.WriteResult) -> Swift.Void)? = nil)
+  public func isListening(to characteristicIdentifier: BluejayKit.CharacteristicIdentifier) throws -> Swift.Bool
+  public func readRSSI() throws
+  public func maximumWriteValueLength(for writeType: CoreBluetooth.CBCharacteristicWriteType) throws -> Swift.Int
+  public func run(backgroundTask: @escaping (BluejayKit.SynchronizedPeripheral) throws -> Swift.Void, completionOnMainThread: @escaping (BluejayKit.RunResult<Swift.Void>) -> Swift.Void)
+  public func run<Result>(backgroundTask: @escaping (BluejayKit.SynchronizedPeripheral) throws -> Result, completionOnMainThread: @escaping (BluejayKit.RunResult<Result>) -> Swift.Void)
+  public func run<UserData, Result>(userData: UserData, backgroundTask: @escaping (BluejayKit.SynchronizedPeripheral, UserData) throws -> Result, completionOnMainThread: @escaping (BluejayKit.RunResult<Result>) -> Swift.Void)
+  public static func combine(sendables: [any BluejayKit.Sendable]) -> Foundation.Data
+}
+extension BluejayKit.Bluejay : CoreBluetooth.CBCentralManagerDelegate {
+  @objc dynamic public func centralManagerDidUpdateState(_ central: CoreBluetooth.CBCentralManager)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, willRestoreState dict: [Swift.String : Any])
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didConnect peripheral: CoreBluetooth.CBPeripheral)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDisconnectPeripheral peripheral: CoreBluetooth.CBPeripheral, error: (any Swift.Error)?)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didFailToConnect peripheral: CoreBluetooth.CBPeripheral, error: (any Swift.Error)?)
+  @objc dynamic public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDiscover peripheral: CoreBluetooth.CBPeripheral, advertisementData: [Swift.String : Any], rssi RSSI: Foundation.NSNumber)
+}
+public enum BackgroundRestoreMode {
+  case disable
+  case enable(BluejayKit.BackgroundRestoreConfig)
+}
+public protocol Receivable {
+  init(bluetoothData: Foundation.Data) throws
+}
+public protocol DisconnectHandler : AnyObject {
+  func didDisconnect(from peripheral: BluejayKit.PeripheralIdentifier, with error: (any Swift.Error)?, willReconnect autoReconnect: Swift.Bool) -> BluejayKit.AutoReconnectMode
+}
+public enum AutoReconnectMode {
+  case noChange
+  case change(shouldAutoReconnect: Swift.Bool)
+}
+public enum RunResult<R> {
+  case success(R)
+  case failure(any Swift.Error)
+}
+extension BluejayKit.MultipleListenOption : Swift.Equatable {}
+extension BluejayKit.MultipleListenOption : Swift.Hashable {}
+extension BluejayKit.MultipleListenOption : Swift.RawRepresentable {}
+extension BluejayKit.ListenAction : Swift.Equatable {}
+extension BluejayKit.ListenAction : Swift.Hashable {}
+extension BluejayKit.ListenRestoreAction : Swift.Equatable {}
+extension BluejayKit.ListenRestoreAction : Swift.Hashable {}
