@@ -81,7 +81,7 @@ struct JumpRopeView: View {
                                         .opacity(viewModel.isJumping ? 1 : 0)
                                 }
                             button
-                                .offset(x: viewModel.isJumping ? geometry.size.width * 0.3 : 0)
+                                .offset(x: viewModel.isJumping ? geometry.size.width * 0.28 : 0)
                         }
                     }
                 }
@@ -107,7 +107,7 @@ struct JumpRopeView: View {
     
     private var countView: some View {
         VStack {
-            HStack(spacing: 0) {
+            HStack(alignment: .firstTextBaseline, spacing: 0) {
                 Text("C")
                 Text("ount")
                     .foregroundColor(Color(uiColor: .tertiaryLabel))
