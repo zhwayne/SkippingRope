@@ -24,8 +24,8 @@ extension CBManagerState: CustomStringConvertible {
         case .resetting: return "Resetting"
         case .unsupported: return "Unsupported"
         case .unauthorized: return "Unauthorized"
-        case .poweredOff: return "PoweredOff"
-        case .poweredOn: return "PoweredOn"
+        case .poweredOff: return "Powered Off"
+        case .poweredOn: return "Powered On"
         @unknown default:
             fatalError()
         }
@@ -39,7 +39,7 @@ struct ContentView: View {
     @State private var error: Error?
     @State private var showErrorDialog = false
     @State private var scanning = false
-    @State private var indicatorVisiable = true
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
     
     @StateObject var central: BlueCentral = .shared
     @EnvironmentObject var router: Router
@@ -58,8 +58,8 @@ struct ContentView: View {
                 } else {
                     if central.connectionStatus == .connecting {
                         VStack {
-                            ActivityIndicatorView(isVisible: $indicatorVisiable, type: .flickeringDots(count: 8))
-                                .frame(width: 64, height: 64)
+                            ActivityIndicatorView(isVisible: .constant(true), type: .flickeringDots(count: 8))
+                                .frame(width: 80, height: 80)
                                 .foregroundColor(.accentColor)
                             Text("Connecting...")
                                 .font(.system(size: 24, weight: .semibold, design: .rounded))
@@ -67,19 +67,39 @@ struct ContentView: View {
                     } else if viewModel.discoveries.isEmpty {
                         if scanning {
                             VStack {
-                                ActivityIndicatorView(isVisible: $indicatorVisiable, type: .flickeringDots(count: 8))
-                                    .frame(width: 64, height: 64)
+                                ActivityIndicatorView(isVisible: .constant(true), type: .flickeringDots(count: 8))
+                                    .frame(width: 80, height: 80)
                                     .foregroundColor(.accentColor)
                                 Text("Scanning...")
                                     .font(.system(size: 24, weight: .semibold, design: .rounded))
                             }
                         } else {
-                            Button("Scan For New Devices") {
-                                scanning = true
+                            let layout = verticalSizeClass == .compact ? AnyLayout(HStackLayout()) : AnyLayout(VStackLayout())
+                            layout {
+                                Image(systemName: "sparkles.tv")
+                                    .resizable()
+                                    .foregroundStyle(Color.accentColor.opacity(0.8))
+                                    .frame(width: 80, height: 80)
+                                    .padding(.bottom)
+                                Button {
+                                    scanning = true
+                                } label: {
+                                    HStack {
+                                        Spacer()
+                                        Text("Scan for New Devices")
+                                            .font(.system(size: 20, weight: .semibold, design: .rounded))
+                                            .foregroundStyle(Color.white)
+                                            .padding()
+                                        Spacer()
+                                    }
+                                    .background(Color.accentColor, in: RoundedRectangle(cornerRadius: 16))
+                                }
+                                .padding()
+                                .padding(.horizontal)
+                                .applyIf(verticalSizeClass == .compact) {
+                                    $0.frame(width: 400)
+                                }
                             }
-                            .font(.system(size: 24, design: .rounded))
-                            .buttonStyle(.borderedProminent)
-                            .tint(Color.green)
                         }
                     } else {
                         List {
@@ -127,7 +147,7 @@ struct ContentView: View {
     private func scan(_ startOrEnd: Bool) {
         if startOrEnd {
             if central.isScanning { return }
-            central.scan { allDeviceDiscoveries in
+            central.scan(deviceModels: [.skippingRopeQ3]) { allDeviceDiscoveries in
                 self.viewModel.discoveries = allDeviceDiscoveries.sorted(by: {$0.scanDiscovery.rssi > $1.scanDiscovery.rssi})
             } stopped: { error in
                 if scanning == true {
