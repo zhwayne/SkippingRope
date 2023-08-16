@@ -44,7 +44,7 @@ class JumpRopeViewMode: ObservableObject {
                 isJumping = false
                 try await skippingRope?.training(.stop)
                 dataUpdateCancellable = nil
-//                count = 0
+                count = 0
             } catch { }
         }
     }
