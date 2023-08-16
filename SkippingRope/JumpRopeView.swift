@@ -44,7 +44,7 @@ class JumpRopeViewMode: ObservableObject {
                 isJumping = false
                 try await skippingRope?.training(.stop)
                 dataUpdateCancellable = nil
-                count = 0
+//                count = 0
             } catch { }
         }
     }
@@ -65,28 +65,30 @@ struct JumpRopeView: View {
                             Color.clear
                                 .overlay {
                                     countView
-                                        .offset(y: viewModel.isJumping ? geometry.size.height * -0.175 : 0)
+                                        .offset(y: viewModel.isJumping ? geometry.size.height * -0.14 : 0)
                                         .frame(height: geometry.size.height)
                                         .opacity(viewModel.isJumping ? 1 : 0)
                                 }
                             button
-                                .offset(y: viewModel.isJumping ? geometry.size.height * 0.215 : 0)
+                                .offset(y: viewModel.isJumping ? geometry.size.height * 0.3 : 0)
                             
                         } else {
                             Color.clear
                                 .overlay {
                                     countView
-                                        .offset(x: viewModel.isJumping ? geometry.size.width * -0.2 : 0, y: 20)
+                                        .offset(x: viewModel.isJumping ? geometry.size.width * -0.14 : 0)
                                         .frame(height: geometry.size.height)
-                                        .frame(maxWidth: geometry.size.width * 0.5)
                                         .opacity(viewModel.isJumping ? 1 : 0)
                                 }
                             button
-                                .offset(x: viewModel.isJumping ? geometry.size.width * 0.25 : 0)
+                                .offset(x: viewModel.isJumping ? geometry.size.width * 0.3 : 0)
                         }
                     }
                 }
-                
+                .padding()
+            }
+            .applyIf(verticalSizeClass == .compact) {
+                $0.ignoresSafeArea()
             }
             .toolbar(.hidden, for: .navigationBar)
             .animation(.spring(), value: viewModel.isJumping)
@@ -115,6 +117,7 @@ struct JumpRopeView: View {
             Text("\(viewModel.count)")
                 .contentTransition(.numericText(countsDown: true))
                 .font(.system(size: 200, weight: .semibold, design: .rounded))
+                .frame(height: 200)
                 .animation(.linear, value: viewModel.count)
                 .foregroundColor(Color.accentColor)
                 .minimumScaleFactor(0.5)
@@ -125,10 +128,10 @@ struct JumpRopeView: View {
         Circle()
             .fill(viewModel.isJumping ? Color.red : Color.accentColor)
             .containerShape(.circle)
-            .frame(width: viewModel.isJumping ? 120 : 200)
+            .frame(width: viewModel.isJumping ? 120 : 180)
             .overlay {
                 Text(viewModel.isJumping ? "STOP" : "START")
-                    .font(.system(size: viewModel.isJumping ? 32 : 48, weight: .semibold, design: .rounded))
+                    .font(.system(size: viewModel.isJumping ? 32 : 44, weight: .semibold, design: .rounded))
                     .foregroundColor(.white)
             }
             .onTapGesture {
@@ -138,6 +141,7 @@ struct JumpRopeView: View {
                     viewModel.start()
                 }
             }
+            //.border(.cyan)
     }
 }
 
