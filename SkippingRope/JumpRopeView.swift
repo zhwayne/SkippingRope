@@ -65,12 +65,12 @@ struct JumpRopeView: View {
                             Color.clear
                                 .overlay {
                                     countView
-                                        .offset(y: viewModel.isJumping ? geometry.size.height * -0.14 : 0)
+                                        .offset(y: viewModel.isJumping ? geometry.size.height * -0.1 : 0)
                                         .frame(height: geometry.size.height)
                                         .opacity(viewModel.isJumping ? 1 : 0)
                                 }
                             button
-                                .offset(y: viewModel.isJumping ? geometry.size.height * 0.3 : 0)
+                                .offset(y: viewModel.isJumping ? geometry.size.height * 0.33 : 0)
                             
                         } else {
                             Color.clear
@@ -81,7 +81,7 @@ struct JumpRopeView: View {
                                         .opacity(viewModel.isJumping ? 1 : 0)
                                 }
                             button
-                                .offset(x: viewModel.isJumping ? geometry.size.width * 0.28 : 0)
+                                .offset(x: viewModel.isJumping ? geometry.size.width * 0.25 : 0)
                         }
                     }
                 }
@@ -114,24 +114,35 @@ struct JumpRopeView: View {
             }
             .font(.system(size: 56, weight: .semibold, design: .rounded))
             
-            Text("\(viewModel.count)")
-                .contentTransition(.numericText(countsDown: true))
-                .font(.system(size: 200, weight: .semibold, design: .rounded))
-                .frame(height: 200)
-                .animation(.linear, value: viewModel.count)
-                .foregroundColor(Color.accentColor)
-                .minimumScaleFactor(0.5)
+            if #available(iOS 17.0, *) {
+                Text("\(viewModel.count)")
+                    .contentTransition(.numericText(value: Double(viewModel.count)))
+                    .font(.system(size: 200, weight: .semibold, design: .rounded))
+                    .frame(height: 200)
+                    .animation(.snappy, value: viewModel.count)
+                    .foregroundColor(Color.accentColor)
+                    .minimumScaleFactor(0.5)
+                    .monospacedDigit()
+            } else {
+                Text("\(viewModel.count)")
+                    .font(.system(size: 200, weight: .semibold, design: .rounded))
+                    .frame(height: 200)
+                    .foregroundColor(Color.accentColor)
+                    .minimumScaleFactor(0.5)
+                    .monospacedDigit()
+            }
         }
+        //.border(.cyan)
     }
     
     private var button: some View {
         Circle()
             .fill(viewModel.isJumping ? Color.red : Color.accentColor)
-            .containerShape(.circle)
-            .frame(width: viewModel.isJumping ? 120 : 180)
+            .containerShape(Circle())
+            .frame(width: viewModel.isJumping ? 100 : 180)
             .overlay {
                 Text(viewModel.isJumping ? "STOP" : "START")
-                    .font(.system(size: viewModel.isJumping ? 32 : 44, weight: .semibold, design: .rounded))
+                    .font(.system(size: viewModel.isJumping ? 24 : 40, weight: .semibold, design: .rounded))
                     .foregroundColor(.white)
             }
             .onTapGesture {
