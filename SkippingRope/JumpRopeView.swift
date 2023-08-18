@@ -10,6 +10,7 @@ import BlueCentralKit
 import Foundation
 import CoreBluetooth
 import Combine
+import HealthKit
 
 @MainActor
 class JumpRopeViewMode: ObservableObject {
@@ -21,31 +22,46 @@ class JumpRopeViewMode: ObservableObject {
     @Published var isJumping = false
     @Published var count = 0
     
+    private var startDate = Date()
+    private var endDate = Date()
+    
     private var dataUpdateCancellable: AnyCancellable?
     
     func start() {
-        Task {
-            do {
-                isJumping = true
-                try await skippingRope?.setSystemType(.ylcmd)
-                try await skippingRope?.setMode(.freedom)
-                try await skippingRope?.training(.start)
-                
-                dataUpdateCancellable = skippingRope?.dataUpadte.sink(receiveValue: { [weak self] trainingData in
-                    self?.count = Int(trainingData.count)
-                })
-            } catch { }
+        Task(priority: .userInitiated) {
+            isJumping = true
+            startDate = Date()
+            let _ = try? await skippingRope?.setSystemType(.ylcmd)
+            let _ = try? await skippingRope?.setMode(.freedom)
+            let _ = try? await skippingRope?.training(.start)
+            dataUpdateCancellable = skippingRope?.dataUpadte.sink(receiveValue: { [weak self] trainingData in
+                self?.count = Int(trainingData.count)
+            })
         }
     }
     
-    func stop() {
-        Task {
+    func stop(healthStore: HKHealthStore) {
+        Task(priority: .userInitiated) {
+            endDate = Date()
+            isJumping = false
+            let _ = try? await skippingRope?.training(.stop)
+            dataUpdateCancellable = nil
+            count = 0
+            
+            // 假设以一位体重60千克的人以正常跳绳速度（MET=11.8）来计算，
+            // 套公式：每分钟燃烧的千卡路里=（ MET x 体重（千克）x 3.5）÷200，一小时（60分钟）
+            // 消耗的热量就是（11.8 x 60 x 3.5）÷200 x 60=743.4千卡路里。
+            let duration = endDate.timeIntervalSince(startDate)
+            let kilocalorie = 11.8 * 65 * 3.5 / 200 * (duration / 60)
+            let metadata: [String: Any] = [HKMetadataKeyIndoorWorkout: true]
+            let calorieQuantity = HKQuantity(unit: .kilocalorie(), doubleValue: kilocalorie)
+            
+            let workout = HKWorkout(activityType: .jumpRope, start: startDate, end: endDate, workoutEvents: nil, totalEnergyBurned: calorieQuantity, totalDistance: nil, metadata: metadata)
             do {
-                isJumping = false
-                try await skippingRope?.training(.stop)
-                dataUpdateCancellable = nil
-                count = 0
-            } catch { }
+                try await healthStore.save([workout])
+            } catch {
+                debugPrint(error)
+            }
         }
     }
 }
@@ -55,6 +71,7 @@ struct JumpRopeView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject var viewModel = JumpRopeViewMode()
     @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(\.healthStore) private var healthStore
     
     var body: some View {
         Color.clear
@@ -147,7 +164,7 @@ struct JumpRopeView: View {
             }
             .onTapGesture {
                 if viewModel.isJumping {
-                    viewModel.stop()
+                    viewModel.stop(healthStore: healthStore)
                 } else {
                     viewModel.start()
                 }

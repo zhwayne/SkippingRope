@@ -39,6 +39,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0B4A4A6B2A8F41A60026F61E /* SkippingRope.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SkippingRope.entitlements; sourceTree = "<group>"; };
 		A9359A342A8C5BF200B41AE2 /* View++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View++.swift"; sourceTree = "<group>"; };
 		A9FADB372A8B7AD500E99B87 /* SkippingRope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkippingRope.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9FADB3A2A8B7AD500E99B87 /* SkippingRopeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkippingRopeApp.swift; sourceTree = "<group>"; };
@@ -86,6 +87,7 @@
 		A9FADB392A8B7AD500E99B87 /* SkippingRope */ = {
 			isa = PBXGroup;
 			children = (
+				0B4A4A6B2A8F41A60026F61E /* SkippingRope.entitlements */,
 				A9FADB4C2A8B7B2F00E99B87 /* Frameworks */,
 				A9FADB3A2A8B7AD500E99B87 /* SkippingRopeApp.swift */,
 				A9FADB512A8B7B4500E99B87 /* SignalStrengthView.swift */,
@@ -326,6 +328,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SkippingRope/SkippingRope.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SkippingRope/Preview Content\"";
@@ -333,6 +336,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "允许使用蓝牙以便使用跳绳计数功能";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "允许访问健康数据用来保存你的跳绳数据（Share）";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "允许访问健康数据用来保存你的跳绳数据";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -349,6 +354,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -360,6 +366,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SkippingRope/SkippingRope.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SkippingRope/Preview Content\"";
@@ -367,6 +374,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "允许使用蓝牙以便使用跳绳计数功能";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "允许访问健康数据用来保存你的跳绳数据（Share）";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "允许访问健康数据用来保存你的跳绳数据";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -383,6 +392,7 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
