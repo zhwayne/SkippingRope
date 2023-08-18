@@ -18,9 +18,12 @@ class JumpRopeViewMode: ObservableObject {
     let central: BlueCentral = .shared
     
     private var skippingRope: SkippingRope? { central.device as? SkippingRope }
+    private var healthStore = HKHealthStore()
     
     @Published var isJumping = false
     @Published var count = 0
+    @Published var weight: Double = 0
+    @Published var calorie: Double = 0
     
     private var startDate = Date()
     private var endDate = Date()
@@ -36,11 +39,25 @@ class JumpRopeViewMode: ObservableObject {
             let _ = try? await skippingRope?.training(.start)
             dataUpdateCancellable = skippingRope?.dataUpadte.sink(receiveValue: { [weak self] trainingData in
                 self?.count = Int(trainingData.count)
+                if let weight = self?.weight, let count = self?.count/*, let startDate = self?.startDate*/ {
+                    // 方案一：
+                    // 假设以一位体重60千克的人以正常跳绳速度（MET=11.8）来计算，
+                    // 套公式：每分钟燃烧的千卡路里=（ MET x 体重（千克）x 3.5）÷200，一小时（60分钟）
+                    // 消耗的热量就是（11.8 x 60 x 3.5）÷200 x 60=743.4千卡路里。
+                    // self?.calorie = 11.8 * weight * 3.5 / 200 * (Date().timeIntervalSince(startDate) / 60)
+                    //
+                    // 方案二：
+                    // 跳绳消耗的千卡路里 ≈ （跳绳次数 × 体重（公斤） × 跳绳系数） ÷ 1000
+                    //
+                    // 其中，跳绳系数是一个与跳绳强度和技巧有关的常数，通常在0.1到0.3之间。这个常数可以根据您的跳绳
+                    // 水平进行调整，一般来说，跳绳技巧越高，常数越接近0.3。
+                    self?.calorie = (Double(count) * weight * 0.2) / 1000
+                }
             })
         }
     }
     
-    func stop(healthStore: HKHealthStore) {
+    func stop() {
         Task(priority: .userInitiated) {
             endDate = Date()
             isJumping = false
@@ -48,13 +65,9 @@ class JumpRopeViewMode: ObservableObject {
             dataUpdateCancellable = nil
             count = 0
             
-            // 假设以一位体重60千克的人以正常跳绳速度（MET=11.8）来计算，
-            // 套公式：每分钟燃烧的千卡路里=（ MET x 体重（千克）x 3.5）÷200，一小时（60分钟）
-            // 消耗的热量就是（11.8 x 60 x 3.5）÷200 x 60=743.4千卡路里。
             let duration = endDate.timeIntervalSince(startDate)
-            let kilocalorie = 11.8 * 65 * 3.5 / 200 * (duration / 60)
             let metadata: [String: Any] = [HKMetadataKeyIndoorWorkout: true]
-            let calorieQuantity = HKQuantity(unit: .kilocalorie(), doubleValue: kilocalorie)
+            let calorieQuantity = HKQuantity(unit: .kilocalorie(), doubleValue: calorie)
             
             let workout = HKWorkout(activityType: .jumpRope, start: startDate, end: endDate, workoutEvents: nil, totalEnergyBurned: calorieQuantity, totalDistance: nil, metadata: metadata)
             do {
@@ -64,6 +77,19 @@ class JumpRopeViewMode: ObservableObject {
             }
         }
     }
+    
+    func prepare() {
+        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
+        let query = HKSampleQuery(sampleType: HKQuantityType(.bodyMass), predicate: nil, limit: 1, sortDescriptors: [sortDescriptor]) { [weak self] _, samples, _ in
+            if let samples = samples as? [HKDiscreteQuantitySample],
+               let quantity = samples.last?.mostRecentQuantity {
+                DispatchQueue.main.sync {
+                    self?.weight = quantity.doubleValue(for: .gramUnit(with: .kilo))
+                }
+            }
+        }
+        healthStore.execute(query)
+    }
 }
 
 struct JumpRopeView: View {
@@ -71,7 +97,6 @@ struct JumpRopeView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject var viewModel = JumpRopeViewMode()
     @Environment(\.verticalSizeClass) private var verticalSizeClass
-    @Environment(\.healthStore) private var healthStore
     
     var body: some View {
         Color.clear
@@ -104,9 +129,7 @@ struct JumpRopeView: View {
                 }
                 .padding()
             }
-            .applyIf(verticalSizeClass == .compact) {
-                $0.ignoresSafeArea()
-            }
+            .ignoresSafeArea()
             .toolbar(.hidden, for: .navigationBar)
             .animation(.spring(), value: viewModel.isJumping)
             .onChange(of: viewModel.central.connectionStatus) { newValue in
@@ -116,6 +139,7 @@ struct JumpRopeView: View {
             }
             .onAppear {
                 UIApplication.shared.isIdleTimerDisabled = true
+                viewModel.prepare()
             }
             .onDisappear {
                 UIApplication.shared.isIdleTimerDisabled = false
@@ -131,12 +155,18 @@ struct JumpRopeView: View {
             }
             .font(.system(size: 56, weight: .semibold, design: .rounded))
             
+            
             if #available(iOS 17.0, *) {
+                Text(String(format: "%.2fCal", viewModel.calorie))
+                    .font(.system(size: 20, weight: .semibold, design: .rounded))
+                    .contentTransition(.numericText(value: Double(viewModel.calorie)))
+                    .animation(.snappy, value: viewModel.calorie)
+                    .monospacedDigit()
                 Text("\(viewModel.count)")
-                    .contentTransition(.numericText(value: Double(viewModel.count)))
                     .font(.system(size: 200, weight: .semibold, design: .rounded))
-                    .frame(height: 200)
+                    .contentTransition(.numericText(value: Double(viewModel.count)))
                     .animation(.snappy, value: viewModel.count)
+                    .frame(height: 200)
                     .foregroundColor(Color.accentColor)
                     .minimumScaleFactor(0.5)
                     .monospacedDigit()
@@ -164,7 +194,7 @@ struct JumpRopeView: View {
             }
             .onTapGesture {
                 if viewModel.isJumping {
-                    viewModel.stop(healthStore: healthStore)
+                    viewModel.stop()
                 } else {
                     viewModel.start()
                 }
