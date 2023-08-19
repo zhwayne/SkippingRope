@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A9359A352A8C5BF200B41AE2 /* View++.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9359A342A8C5BF200B41AE2 /* View++.swift */; };
+		A94BCAD42A90C2D300DBFCA9 /* JumpRopeViewMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94BCAD32A90C2D300DBFCA9 /* JumpRopeViewMode.swift */; };
 		A9FADB3B2A8B7AD500E99B87 /* SkippingRopeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FADB3A2A8B7AD500E99B87 /* SkippingRopeApp.swift */; };
 		A9FADB3D2A8B7AD500E99B87 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FADB3C2A8B7AD500E99B87 /* ContentView.swift */; };
 		A9FADB3F2A8B7AD600E99B87 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9FADB3E2A8B7AD600E99B87 /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 /* Begin PBXFileReference section */
 		0B4A4A6B2A8F41A60026F61E /* SkippingRope.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SkippingRope.entitlements; sourceTree = "<group>"; };
 		A9359A342A8C5BF200B41AE2 /* View++.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View++.swift"; sourceTree = "<group>"; };
+		A94BCAD32A90C2D300DBFCA9 /* JumpRopeViewMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpRopeViewMode.swift; sourceTree = "<group>"; };
 		A9FADB372A8B7AD500E99B87 /* SkippingRope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SkippingRope.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9FADB3A2A8B7AD500E99B87 /* SkippingRopeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkippingRopeApp.swift; sourceTree = "<group>"; };
 		A9FADB3C2A8B7AD500E99B87 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				A9FADB3C2A8B7AD500E99B87 /* ContentView.swift */,
 				A9359A342A8C5BF200B41AE2 /* View++.swift */,
 				A9FADB5F2A8B86E000E99B87 /* JumpRopeView.swift */,
+				A94BCAD32A90C2D300DBFCA9 /* JumpRopeViewMode.swift */,
 				A9FADB3E2A8B7AD600E99B87 /* Assets.xcassets */,
 				A9FADB402A8B7AD600E99B87 /* Preview Content */,
 			);
@@ -199,6 +202,7 @@
 				A9FADB3D2A8B7AD500E99B87 /* ContentView.swift in Sources */,
 				A9FADB552A8B7BA100E99B87 /* DeviceRowView.swift in Sources */,
 				A9FADB522A8B7B4600E99B87 /* SignalStrengthView.swift in Sources */,
+				A94BCAD42A90C2D300DBFCA9 /* JumpRopeViewMode.swift in Sources */,
 				A9FADB3B2A8B7AD500E99B87 /* SkippingRopeApp.swift in Sources */,
 				A9FADB602A8B86E000E99B87 /* JumpRopeView.swift in Sources */,
 				A9FADB562A8B7BA100E99B87 /* SpeechSynthesizer.swift in Sources */,
