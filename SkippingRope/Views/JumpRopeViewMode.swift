@@ -23,7 +23,7 @@ class JumpRopeViewMode: ObservableObject {
     @Published var isJumping = false
     @Published var count = 0
     @Published var time: Double = 0
-    @Published var weight: Double = 0
+    @Published var weight: Double = 65 // 体重默认 65kg
     @Published var kilocalorie: Double = 0
     
     private var startDate = Date()
@@ -38,8 +38,6 @@ class JumpRopeViewMode: ObservableObject {
         Task(priority: .userInitiated) {
             isJumping = true
             startDate = Date()
-            let _ = try? await skippingRope?.setSystemType(.ylcmd)
-            let _ = try? await skippingRope?.setMode(.freedom)
             let _ = try? await skippingRope?.training(.start)
             dataUpdateCancellable = skippingRope?.dataUpadte.sink(receiveValue: { [weak self] trainingData in
                 self?.count = Int(trainingData.count)
@@ -56,7 +54,7 @@ class JumpRopeViewMode: ObservableObject {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: item)
                 }
                 
-                if let weight = self?.weight, let time = self?.time, let startDate = self?.startDate {
+                if let weight = self?.weight, let time = self?.time {
                     // 假设以一位体重60千克的人以正常跳绳速度（MET=11.8）来计算，
                     // 套公式：每分钟燃烧的千卡路里=（ MET x 体重（千克）x 3.5）÷200，一小时（60分钟）
                     // 消耗的热量就是（11.8 x 60 x 3.5）÷200 x 60 = 743.4千卡路里。
@@ -71,11 +69,19 @@ class JumpRopeViewMode: ObservableObject {
             endDate = Date()
             isJumping = false
             let _ = try? await skippingRope?.training(.stop)
-            dataUpdateCancellable?.cancel()
-            dataUpdateCancellable = nil
-            timerCancellable?.cancel()
-            timerCancellable = nil
-            count = 0
+            
+            defer {
+                dataUpdateCancellable?.cancel()
+                dataUpdateCancellable = nil
+                timerCancellable?.cancel()
+                timerCancellable = nil
+                time = 0
+                count = 0
+                kilocalorie = 0
+            }
+            
+            // 只保留 1分钟以上的数据
+            guard time > 60 else { return }
             
             let metadata: [String: Any] = [HKMetadataKeyIndoorWorkout: true]
             let calorieQuantity = HKQuantity(unit: .kilocalorie(), doubleValue: kilocalorie)
@@ -90,6 +96,14 @@ class JumpRopeViewMode: ObservableObject {
     }
     
     func prepare() {
+        // 设置跳绳
+        Task(priority: .high) {
+            let _ = try? await skippingRope?.setSystemType(.ylcmd)
+            let _ = try? await skippingRope?.setMode(.freedom)
+            let _ = try? await skippingRope?.setMute(true, for: .freedom)
+        }
+        
+        // 查询最新的体重
         let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
         let query = HKSampleQuery(sampleType: HKQuantityType(.bodyMass), predicate: nil, limit: 1, sortDescriptors: [sortDescriptor]) { [weak self] _, samples, _ in
             if let samples = samples as? [HKDiscreteQuantitySample],

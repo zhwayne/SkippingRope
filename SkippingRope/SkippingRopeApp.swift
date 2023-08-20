@@ -21,16 +21,18 @@ struct SkippingRopeApp: App {
                 ContentView()
             }
             .environmentObject(router)
-            .task {
-                guard HKHealthStore.isHealthDataAvailable() else {
-                    return
-                }
-                do {
-                    try await healthStore.requestAuthorization(toShare: [.workoutType()], read: [HKQuantityType(.bodyMass)])
-                } catch {
-                    debugPrint(error)
-                }
-            }
+            .task { await requestAuthorization() }
+        }
+    }
+    
+    private func requestAuthorization() async {
+        guard HKHealthStore.isHealthDataAvailable() else { return }
+        do {
+            let toShare: Set<HKSampleType> = [.workoutType()]
+            let read: Set<HKSampleType> = [HKQuantityType(.bodyMass)]
+            try await healthStore.requestAuthorization(toShare: toShare, read: read)
+        } catch {
+            debugPrint(error)
         }
     }
 }
