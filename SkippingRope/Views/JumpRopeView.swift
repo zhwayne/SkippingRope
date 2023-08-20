@@ -52,9 +52,9 @@ struct JumpRopeView: View {
                     dismiss()
                 }
             }
-            .onAppear {
+            .task {
                 UIApplication.shared.isIdleTimerDisabled = true
-                viewModel.prepare()
+                await viewModel.prepare()
             }
             .onDisappear {
                 UIApplication.shared.isIdleTimerDisabled = false
@@ -64,7 +64,7 @@ struct JumpRopeView: View {
     private var countView: some View {
         VStack(spacing: 0) {
             VStack(alignment: .trailing) {
-                HStack(alignment: .lastTextBaseline, spacing: 8) {
+                HStack(alignment: .lastTextBaseline, spacing: 10) {
                     Text("C")
                         .font(.system(size: 64, weight: .semibold, design: .rounded))
                     VStack(alignment: .trailing, spacing: 0) {
@@ -72,7 +72,7 @@ struct JumpRopeView: View {
                             title: {
                                 if #available(iOS 17.0, *) {
                                     Text(Duration.seconds(viewModel.time), format: .time(pattern: .minuteSecond))
-                                        .font(.system(size: 20, weight: .semibold, design: .rounded))
+                                        .font(.system(size: 24, weight: .semibold))
                                         .contentTransition(.numericText(value: Double(viewModel.time)))
                                         .animation(.snappy, value: viewModel.time)
                                         .monospacedDigit()
@@ -87,12 +87,11 @@ struct JumpRopeView: View {
                                     .bold()
                             }
                         )
-                        .offset(x: -4)
                         
                         Text("ount")
                             .foregroundColor(Color(uiColor: .tertiaryLabel))
                             .font(.system(size: 56, weight: .semibold, design: .rounded))
-                            .kerning(8)
+                            .kerning(10)
                     }
                 }
             }

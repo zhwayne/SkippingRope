@@ -34,11 +34,16 @@ class JumpRopeViewMode: ObservableObject {
     
     private var dataUpdateCancellable: AnyCancellable?
     
+    private  var workoutEvents = [HKWorkoutEvent]()
+    
     func start() {
         Task(priority: .userInitiated) {
+            workoutEvents = []
             isJumping = true
             startDate = Date()
             let _ = try? await skippingRope?.training(.start)
+            let _ = try? await skippingRope?.training(.startConfirm)
+                        
             dataUpdateCancellable = skippingRope?.dataUpadte.sink(receiveValue: { [weak self] trainingData in
                 self?.count = Int(trainingData.count)
                 
@@ -78,6 +83,7 @@ class JumpRopeViewMode: ObservableObject {
                 time = 0
                 count = 0
                 kilocalorie = 0
+                workoutEvents = []
             }
             
             // 只保留 1分钟以上的数据
@@ -86,7 +92,15 @@ class JumpRopeViewMode: ObservableObject {
             let metadata: [String: Any] = [HKMetadataKeyIndoorWorkout: true]
             let calorieQuantity = HKQuantity(unit: .kilocalorie(), doubleValue: kilocalorie)
             
-            let workout = HKWorkout(activityType: .jumpRope, start: startDate, end: endDate, workoutEvents: nil, totalEnergyBurned: calorieQuantity, totalDistance: nil, metadata: metadata)
+            let workout = HKWorkout(
+                activityType: .jumpRope,
+                start: startDate,
+                end: endDate,
+                workoutEvents: nil,
+                totalEnergyBurned: calorieQuantity,
+                totalDistance: nil,
+                metadata: metadata
+            )
             do {
                 try await healthStore.save([workout])
             } catch {
@@ -95,25 +109,27 @@ class JumpRopeViewMode: ObservableObject {
         }
     }
     
-    func prepare() {
+    func prepare() async {
         // 设置跳绳
-        Task(priority: .high) {
-            let _ = try? await skippingRope?.setSystemType(.ylcmd)
-            let _ = try? await skippingRope?.setMode(.freedom)
-            let _ = try? await skippingRope?.setMute(true, for: .freedom)
-        }
+        let _ = try? await skippingRope?.setMode(.freedom)
+        let _ = try? await skippingRope?.setSystemType(.ylcmd)
         
         // 查询最新的体重
-        let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)
-        let query = HKSampleQuery(sampleType: HKQuantityType(.bodyMass), predicate: nil, limit: 1, sortDescriptors: [sortDescriptor]) { [weak self] _, samples, _ in
-            if let samples = samples as? [HKDiscreteQuantitySample],
-               let quantity = samples.last?.mostRecentQuantity {
-                DispatchQueue.main.sync {
-                    self?.weight = quantity.doubleValue(for: .gramUnit(with: .kilo))
+        healthStore.execute(
+            HKSampleQuery(
+                sampleType: HKQuantityType(.bodyMass),
+                predicate: nil,
+                limit: 1,
+                sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)]
+            ) { [weak self] _, samples, _ in
+                if let samples = samples as? [HKDiscreteQuantitySample],
+                   let quantity = samples.last?.mostRecentQuantity {
+                    DispatchQueue.main.sync {
+                        self?.weight = quantity.doubleValue(for: .gramUnit(with: .kilo))
+                    }
                 }
             }
-        }
-        healthStore.execute(query)
+        )
     }
     
     private func resetTimer() {
