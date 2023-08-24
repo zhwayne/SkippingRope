@@ -12,7 +12,7 @@ import BlueCentralKit
 @main
 struct SkippingRopeApp: App {
     
-    @StateObject private var router = Router()
+    @StateObject var router = Router()
     private var healthStore = HKHealthStore()
     
     var body: some Scene {
@@ -35,8 +35,4 @@ struct SkippingRopeApp: App {
             debugPrint(error)
         }
     }
-}
-
-final class Router: ObservableObject {
-    @Published var path = NavigationPath()
 }

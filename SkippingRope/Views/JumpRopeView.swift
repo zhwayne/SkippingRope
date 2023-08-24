@@ -10,8 +10,8 @@ import SwiftUI
 struct JumpRopeView: View {
     
     @Environment(\.verticalSizeClass) private var verticalSizeClass
-    @EnvironmentObject private var viewModel: JumpRopeViewMode
     @EnvironmentObject private var router: Router
+    @State private var viewModel = JumpRopeViewMode()
     
     var body: some View {
         Color.clear
@@ -27,7 +27,7 @@ struct JumpRopeView: View {
                 } else {
                     GeometryReader(content: { geometry in
                         HStack {
-                            DataView(count:3456, time: viewModel.time)
+                            DataView(count: viewModel.count, time: viewModel.time)
                                 .frame(width: geometry.size.width * 0.65)
                             Spacer()
                             StopButtonView {
@@ -46,11 +46,12 @@ struct JumpRopeView: View {
             .toolbar(.hidden, for: .navigationBar)
             .onChange(of: viewModel.central.connectionStatus) { _, newValue in
                 if newValue == .disconnected {
-                    router.path.removeLast(router.path.count - 1)
+                    router.path = .init()
                 }
             }
             .task {
                 UIApplication.shared.isIdleTimerDisabled = true
+                await viewModel.prepare()
                 viewModel.start()
             }
             .onDisappear {

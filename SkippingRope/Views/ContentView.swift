@@ -139,8 +139,15 @@ struct ContentView: View {
             }
             .environmentObject(viewModel)
             .animation(.default, value: viewModel.discoveries)
-            .onChange(of: viewModel.central.cbState, perform: { _ in
+            .onChange(of: viewModel.central.cbState, { oldValue, newValue in
                 viewModel.discoveries = []
+            })
+            .navigationDestination(for: RouterDestination.self, destination: { value in
+                if value == .ready {
+                    ReadyView()
+                } else if value == .jump {
+                    JumpRopeView()
+                }
             })
             .onAppear {
                 if viewModel.central.connectionStatus == .disconnected {
@@ -241,17 +248,14 @@ struct DeviceListView: View {
                 let state = viewModel.connectionState(discovery)
                 DeviceRowView(deviceDiscovery: discovery, connectionState: state, rssi: discovery.scanDiscovery.rssi)
                     .onTapGesture {
-                        Task(priority: .userInitiated) {
+                        Task {
                             await viewModel.connect(to: discovery)
-                            router.path.append("Jump")
+                            router.path.append(RouterDestination.ready)
                         }
                     }
             }
         }
         .backgroundStyle(Color.clear)
-        .navigationDestination(for: String.self, destination: { _ in
-            ReadyView()
-        })
     }
 }
 

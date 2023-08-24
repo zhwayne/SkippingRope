@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct ReadyView: View {
-    @StateObject private var viewModel = JumpRopeViewMode()
     
-    @State private var pushJumpRope: Bool?
+    @EnvironmentObject  var router: Router
     
     var body: some View {
         Circle()
@@ -22,21 +21,16 @@ struct ReadyView: View {
                     .font(.system(size: 40, weight: .semibold, design: .rounded))
                     .foregroundColor(.white)
             }
-            .navigationDestination(item: $pushJumpRope) { _ in
-                JumpRopeView()
-                    .environmentObject(viewModel)
-            }
             .onTapGesture {
-                pushJumpRope 
+                router.path.append(RouterDestination.jump)
             }
-        .toolbar(.hidden, for: .navigationBar)
-        .task {
-            UIApplication.shared.isIdleTimerDisabled = true
-            await viewModel.prepare()
-        }
-        .onDisappear {
-            UIApplication.shared.isIdleTimerDisabled = false
-        }
+            .toolbar(.hidden, for: .navigationBar)
+            .task {
+                UIApplication.shared.isIdleTimerDisabled = true
+            }
+            .onDisappear {
+                UIApplication.shared.isIdleTimerDisabled = false
+            }
     }
 }
 

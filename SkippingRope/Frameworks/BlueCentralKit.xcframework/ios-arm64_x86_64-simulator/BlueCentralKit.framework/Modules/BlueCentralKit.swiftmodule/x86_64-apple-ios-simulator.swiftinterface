@@ -6,6 +6,7 @@ import BluejayKit
 import Combine
 import CommonCrypto
 import CoreBluetooth
+import Darwin
 import Foundation
 import Swift
 import SwiftUI
@@ -16,11 +17,11 @@ import os
 extension BlueCentralKit.SkippingRope {
   #if compiler(>=5.3) && $AsyncAwait
   @discardableResult
-  @_Concurrency.MainActor public func deleteRemind(at index: Swift.UInt8, for trainingMode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
+  public func deleteRemind(at index: Swift.UInt8, for trainingMode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
   #endif
 }
 extension BlueCentralKit.SkippingRope {
-  @_Concurrency.MainActor public var trainingModeChanged: Combine.AnyPublisher<BlueCentralKit.SkippingRope.TrainingMode, Swift.Never> {
+  public var trainingModeChanged: Combine.AnyPublisher<BlueCentralKit.SkippingRope.TrainingMode, Swift.Never> {
     get
   }
 }
@@ -30,7 +31,7 @@ extension BlueCentralKit.SkippingRope.SystemType : BlueCentralKit.DataEncodable 
 extension BlueCentralKit.SkippingRope {
   #if compiler(>=5.3) && $AsyncAwait
   @discardableResult
-  @_Concurrency.MainActor public func setSystemType(_ type: BlueCentralKit.SkippingRope.SystemType) async throws -> Swift.Bool
+  public func setSystemType(_ type: BlueCentralKit.SkippingRope.SystemType) async throws -> Swift.Bool
   #endif
 }
 extension Foundation.Data {
@@ -59,18 +60,18 @@ extension BlueCentralKit.SkippingRope {
   }
 }
 extension BlueCentralKit.SkippingRope {
-  @_Concurrency.MainActor public var isPauseSupported: Swift.Bool {
+  public var isPauseSupported: Swift.Bool {
     get
   }
   #if compiler(>=5.3) && $AsyncAwait
   @discardableResult
-  @_Concurrency.MainActor public func training(_ payload: BlueCentralKit.SkippingRope.Training) async throws -> Swift.Bool
+  public func training(_ payload: BlueCentralKit.SkippingRope.Training) async throws -> Swift.Bool
   #endif
 }
 extension BlueCentralKit.SkippingRope {
   #if compiler(>=5.3) && $AsyncAwait
   @discardableResult
-  @_Concurrency.MainActor public func setRemind(time: Swift.UInt16, for trainingMode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
+  public func setRemind(time: Swift.UInt16, for trainingMode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
   #endif
 }
 extension BlueCentralKit.BlueCentral {
@@ -88,7 +89,7 @@ extension BlueCentralKit.BlueCentral {
 extension BlueCentralKit.BlueCentral {
   public typealias ScanCallback = (_ allDeviceDiscoveries: [BlueCentralKit.DeviceDiscovery]) -> Swift.Void
   public typealias ScanStopped = (_ result: Swift.Result<[BlueCentralKit.DeviceDiscovery], any Swift.Error>) -> Swift.Void
-  @_Concurrency.MainActor final public func scan(deviceModels: [BlueCentralKit.DeviceModel]? = nil, duration: Foundation.TimeInterval = 0, allowDuplicates: Swift.Bool = true, throttling: BlueCentralKit.ScanThrottling = .throttleRSSIDelta(1), callback: @escaping BlueCentralKit.BlueCentral.ScanCallback, stopped: BlueCentralKit.BlueCentral.ScanStopped? = nil)
+  @_Concurrency.MainActor final public func scan(deviceModels: [BlueCentralKit.DeviceModel]? = nil, duration: Foundation.TimeInterval = 0, allowDuplicates: Swift.Bool = true, throttling: BlueCentralKit.ScanThrottling = .throttleRSSIDelta(0), callback: @escaping BlueCentralKit.BlueCentral.ScanCallback, stopped: BlueCentralKit.BlueCentral.ScanStopped? = nil)
   @_Concurrency.MainActor final public func stopScanning()
   #if compiler(>=5.3) && $AsyncAwait
   @_Concurrency.MainActor final public func connect(discovery: BlueCentralKit.DeviceDiscovery) async throws
@@ -103,7 +104,7 @@ public enum ScanThrottling {
 }
 extension BlueCentralKit.SkippingRope {
   #if compiler(>=5.3) && $AsyncAwait
-  @_Concurrency.MainActor public func shutdown() async throws
+  public func shutdown() async throws
   #endif
 }
 public enum DeviceModel : Swift.CaseIterable {
@@ -149,19 +150,19 @@ extension BlueCentralKit.SkippingRope.TrainingMode : BlueCentralKit.DataEncodabl
 extension BlueCentralKit.SkippingRope {
   #if compiler(>=5.3) && $AsyncAwait
   @discardableResult
-  @_Concurrency.MainActor public func setMode(_ mode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
+  public func setMode(_ mode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
   #endif
 }
 extension BlueCentralKit.SkippingRope {
   #if compiler(>=5.3) && $AsyncAwait
   @discardableResult
-  @_Concurrency.MainActor public func modifiyName(_ name: Swift.String) async throws -> Swift.Bool
+  public func modifiyName(_ name: Swift.String) async throws -> Swift.Bool
   #endif
 }
 extension BlueCentralKit.SkippingRope {
   #if compiler(>=5.3) && $AsyncAwait
   @discardableResult
-  @_Concurrency.MainActor public func setMute(_ isMute: Swift.Bool, for trainingMode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
+  public func setMute(_ isMute: Swift.Bool, for trainingMode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
   #endif
 }
 public protocol DataEncodable : BluejayKit.Sendable {
@@ -199,16 +200,18 @@ public protocol Message : BlueCentralKit.DataDecodable, BlueCentralKit.DataEncod
 extension BlueCentralKit.SkippingRope {
   #if compiler(>=5.3) && $AsyncAwait
   @discardableResult
-  @_Concurrency.MainActor public func lockingDirection(_ isLocking: Swift.Bool) async throws -> Swift.Bool
+  public func lockingDirection(_ isLocking: Swift.Bool) async throws -> Swift.Bool
   #endif
 }
 extension BlueCentralKit.SkippingRope {
   #if compiler(>=5.3) && $AsyncAwait
-  @_Concurrency.MainActor public func synchronize() async throws
+  public func synchronize() async throws
   #endif
 }
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor public class SkippingRope : BlueCentralKit.Device {
-  public func didConnected()
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class SkippingRope : BlueCentralKit.Device {
+  #if compiler(>=5.3) && $AsyncAwait
+  public func didConnected() async
+  #endif
   @objc deinit
 }
 extension BlueCentralKit.SkippingRope {
@@ -227,7 +230,7 @@ extension BlueCentralKit.SkippingRope {
 extension BlueCentralKit.SkippingRope {
   #if compiler(>=5.3) && $AsyncAwait
   @discardableResult
-  @_Concurrency.MainActor public func popOfflineData() async throws -> [BlueCentralKit.SkippingRope.OfflineData]
+  public func popOfflineData() async throws -> [BlueCentralKit.SkippingRope.OfflineData]
   #endif
 }
 extension BlueCentralKit.SkippingRope {
@@ -323,7 +326,7 @@ extension BlueCentralKit.BlueCentralError : Foundation.CustomNSError {
     get
   }
 }
-@_hasMissingDesignatedInitializers public class Device : Foundation.ObservableObject, @unchecked Swift.Sendable {
+@_hasMissingDesignatedInitializers public class Device : Foundation.ObservableObject {
   @Combine.Published @_projectedValueProperty($name) public var name: Swift.String {
     get
   }
@@ -349,12 +352,14 @@ extension BlueCentralKit.Device : Swift.Hashable {
     get
   }
 }
-public struct DeviceDiscovery : Swift.Hashable {
+public struct DeviceDiscovery {
   public let device: BlueCentralKit.Device
   public let scanDiscovery: BluejayKit.ScanDiscovery
   public init?(_ scanDiscovery: BluejayKit.ScanDiscovery, expectedModel: BlueCentralKit.DeviceModel? = nil)
+}
+extension BlueCentralKit.DeviceDiscovery : Swift.Hashable {
+  public static func == (lhs: BlueCentralKit.DeviceDiscovery, rhs: BlueCentralKit.DeviceDiscovery) -> Swift.Bool
   public func hash(into hasher: inout Swift.Hasher)
-  public static func == (a: BlueCentralKit.DeviceDiscovery, b: BlueCentralKit.DeviceDiscovery) -> Swift.Bool
   public var hashValue: Swift.Int {
     get
   }
@@ -374,21 +379,21 @@ extension BlueCentralKit.SkippingRope {
   }
 }
 extension BlueCentralKit.SkippingRope {
-  @_Concurrency.MainActor public var dataUpadte: Combine.AnyPublisher<BlueCentralKit.SkippingRope.TrainingData, Swift.Never> {
+  public var dataUpadte: Combine.AnyPublisher<BlueCentralKit.SkippingRope.TrainingData, Swift.Never> {
     get
   }
 }
 extension BlueCentralKit.SkippingRope {
-  @_Concurrency.MainActor public func parepareForOTAUpgrade()
-  @_Concurrency.MainActor public func cancelOTAUpgrade()
+  public func parepareForOTAUpgrade()
+  public func cancelOTAUpgrade()
   #if compiler(>=5.3) && $AsyncAwait
-  @_Concurrency.MainActor public func upgrade(fileURL: Foundation.URL, progress: (Swift.Double) -> Swift.Void) async throws
+  public func upgrade(fileURL: Foundation.URL, progress: (Swift.Double) -> Swift.Void) async throws
   #endif
 }
 extension BlueCentralKit.SkippingRope {
   #if compiler(>=5.3) && $AsyncAwait
   @discardableResult
-  @_Concurrency.MainActor public func setPrams(countingMode: BlueCentralKit.CountingMode, for trainingMode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
+  public func setPrams(countingMode: BlueCentralKit.CountingMode, for trainingMode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> Swift.Bool
   #endif
 }
 public struct DeviceKey : Swift.Hashable, Swift.Comparable, Swift.CustomStringConvertible {
@@ -471,7 +476,7 @@ extension BlueCentralKit.BlueCentral : BluejayKit.DisconnectHandler {
 }
 extension BlueCentralKit.SkippingRope {
   #if compiler(>=5.3) && $AsyncAwait
-  @_Concurrency.MainActor public func queryRemind(for mode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> [Swift.UInt16]
+  public func queryRemind(for mode: BlueCentralKit.SkippingRope.TrainingMode) async throws -> [Swift.UInt16]
   #endif
 }
 extension BlueCentralKit.SkippingRope.SystemType : Swift.Equatable {}

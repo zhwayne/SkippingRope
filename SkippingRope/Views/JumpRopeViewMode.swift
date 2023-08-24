@@ -11,30 +11,27 @@ import Foundation
 import CoreBluetooth
 import Combine
 import HealthKit
+import Observation
 
+@Observable
 @MainActor
-class JumpRopeViewMode: ObservableObject {
+class JumpRopeViewMode {
     
-    let central: BlueCentral = .shared
+    var isJumping = false
+    var count = 0
+    var time: Double = 0
+    var weight: Double = 65 // 体重默认 65kg
+    var kilocalorie: Double = 0
     
     private var skippingRope: SkippingRope? { central.device as? SkippingRope }
-    private var healthStore = HKHealthStore()
-    
-    @Published var isJumping = false
-    @Published var count = 0
-    @Published var time: Double = 0
-    @Published var weight: Double = 65 // 体重默认 65kg
-    @Published var kilocalorie: Double = 0
-    
-    private var startDate = Date()
-    private var endDate = Date()
-    
-    private var timerCancellable: AnyCancellable?
-    private var timeoutTask: DispatchWorkItem?
-    
-    private var dataUpdateCancellable: AnyCancellable?
-    
-    private  var workoutEvents = [HKWorkoutEvent]()
+    @ObservationIgnored private(set) var central: BlueCentral = .shared
+    @ObservationIgnored private var healthStore = HKHealthStore()
+    @ObservationIgnored private var startDate = Date()
+    @ObservationIgnored private var endDate = Date()
+    @ObservationIgnored private var timerCancellable: AnyCancellable?
+    @ObservationIgnored private var timeoutTask: DispatchWorkItem?
+    @ObservationIgnored private var dataUpdateCancellable: AnyCancellable?
+    @ObservationIgnored private var workoutEvents = [HKWorkoutEvent]()
     
     func start() {
         Task(priority: .userInitiated) {
