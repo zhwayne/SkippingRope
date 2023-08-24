@@ -9,134 +9,116 @@ import SwiftUI
 
 struct JumpRopeView: View {
     
-    @Environment(\.dismiss) private var dismiss
-    @StateObject var viewModel = JumpRopeViewMode()
     @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @EnvironmentObject private var viewModel: JumpRopeViewMode
+    @EnvironmentObject private var router: Router
     
     var body: some View {
         Color.clear
             .overlay {
-                GeometryReader { geometry in
-                    ZStack {
-                        if verticalSizeClass == .regular {
-                            Color.clear
-                                .overlay {
-                                    countView
-                                        .offset(y: viewModel.isJumping ? geometry.size.height * -0.1 : 0)
-                                        .frame(height: geometry.size.height)
-                                        .opacity(viewModel.isJumping ? 1 : 0)
-                                }
-                            button
-                                .offset(y: viewModel.isJumping ? geometry.size.height * 0.25 : 0)
-                            
-                        } else {
-                            Color.clear
-                                .overlay {
-                                    countView
-                                        .offset(x: viewModel.isJumping ? geometry.size.width * -0.14 : 0)
-                                        .frame(height: geometry.size.height)
-                                        .opacity(viewModel.isJumping ? 1 : 0)
-                                }
-                            button
-                                .offset(x: viewModel.isJumping ? geometry.size.width * 0.25 : 0)
+                if verticalSizeClass == .regular {
+                    VStack(spacing: 100) {
+                        DataView(count: viewModel.count, time: viewModel.time)
+                        StopButtonView {
+                            viewModel.stop()
+                            router.path.removeLast()
                         }
                     }
+                } else {
+                    GeometryReader(content: { geometry in
+                        HStack {
+                            DataView(count:3456, time: viewModel.time)
+                                .frame(width: geometry.size.width * 0.65)
+                            Spacer()
+                            StopButtonView {
+                                viewModel.stop()
+                                router.path.removeLast()
+                            }
+                            .padding(.trailing)
+                            Spacer()
+                        }
+                        .frame(height: geometry.size.height)
+                    })
                 }
-                .padding()
             }
-            .ignoresSafeArea()
+            .padding(.horizontal)
+            .ignoresSafeArea(edges: .bottom)
             .toolbar(.hidden, for: .navigationBar)
-            .animation(.spring(), value: viewModel.isJumping)
-            .onChange(of: viewModel.central.connectionStatus) { newValue in
+            .onChange(of: viewModel.central.connectionStatus) { _, newValue in
                 if newValue == .disconnected {
-                    dismiss()
+                    router.path.removeLast(router.path.count - 1)
                 }
             }
             .task {
                 UIApplication.shared.isIdleTimerDisabled = true
-                await viewModel.prepare()
+                viewModel.start()
             }
             .onDisappear {
                 UIApplication.shared.isIdleTimerDisabled = false
             }
     }
+}
+
+struct DataView: View {
     
-    private var countView: some View {
+    let count: Int
+    let time: Double
+    
+    var body: some View {
         VStack(spacing: 0) {
             VStack(alignment: .trailing) {
-                HStack(alignment: .lastTextBaseline, spacing: 10) {
+                HStack(alignment: .lastTextBaseline, spacing: 8) {
                     Text("C")
                         .font(.system(size: 64, weight: .semibold, design: .rounded))
                     VStack(alignment: .trailing, spacing: 0) {
                         Label(
                             title: {
-                                if #available(iOS 17.0, *) {
-                                    Text(Duration.seconds(viewModel.time), format: .time(pattern: .minuteSecond))
-                                        .font(.system(size: 24, weight: .semibold))
-                                        .contentTransition(.numericText(value: Double(viewModel.time)))
-                                        .animation(.snappy, value: viewModel.time)
-                                        .monospacedDigit()
-                                } else {
-                                    Text(String(format: "%.f", viewModel.time))
-                                        .font(.system(size: 20, weight: .semibold, design: .rounded))
-                                        .monospacedDigit()
-                                }
+                                Text(Duration.seconds(time), format: .time(pattern: .minuteSecond))
+                                    .font(.system(size: 24, weight: .semibold))
+                                    .contentTransition(.numericText(value: Double(time)))
+                                    .animation(.snappy, value: time)
+                                    .monospacedDigit()
                             },
                             icon: {
                                 Image(systemName: "deskclock")
                                     .bold()
                             }
                         )
-                        
                         Text("ount")
                             .foregroundColor(Color(uiColor: .tertiaryLabel))
                             .font(.system(size: 56, weight: .semibold, design: .rounded))
-                            .kerning(10)
+                            .kerning(8)
                     }
                 }
             }
             
-            
-            if #available(iOS 17.0, *) {
-               
-                Text("\(viewModel.count)")
-                    .font(.system(size: 200, weight: .semibold, design: .rounded))
-                    .contentTransition(.numericText(value: Double(viewModel.count)))
-                    .animation(.snappy, value: viewModel.count)
-                    .frame(height: 200)
-                    .foregroundColor(Color.accentColor)
-                    .minimumScaleFactor(0.5)
-                    .monospacedDigit()
-            } else {
-                Text("\(viewModel.count)")
-                    .font(.system(size: 180, weight: .semibold, design: .rounded))
-                    .frame(height: 180)
-                    .foregroundColor(Color.accentColor)
-                    .minimumScaleFactor(0.5)
-                    .monospacedDigit()
-            }
+            Text("\(count)")
+                .font(.system(size: 200, weight: .semibold, design: .rounded))
+                .contentTransition(.numericText(value: Double(count)))
+                .animation(.snappy, value: count)
+                .frame(height: 200)
+                .foregroundColor(Color.accentColor)
+                .minimumScaleFactor(0.5)
+                .monospacedDigit()
         }
-        //.border(.cyan)
     }
+}
+
+struct StopButtonView: View {
     
-    private var button: some View {
+    let action: () -> Void
+    
+    var body: some View {
         Circle()
-            .fill(viewModel.isJumping ? Color.red : Color.accentColor)
+            .fill(Color.red)
             .containerShape(Circle())
-            .frame(width: viewModel.isJumping ? 100 : 180)
+            .frame(width: 100)
             .overlay {
-                Text(viewModel.isJumping ? "STOP" : "START")
-                    .font(.system(size: viewModel.isJumping ? 24 : 40, weight: .semibold, design: .rounded))
+                Text("STOP")
+                    .font(.system(size: 24, weight: .semibold, design: .rounded))
                     .foregroundColor(.white)
             }
-            .onTapGesture {
-                if viewModel.isJumping {
-                    viewModel.stop()
-                } else {
-                    viewModel.start()
-                }
-            }
-            //.border(.cyan)
+            .onTapGesture(perform: action)
     }
 }
 

@@ -96,7 +96,7 @@ class JumpRopeViewMode: ObservableObject {
                 activityType: .jumpRope,
                 start: startDate,
                 end: endDate,
-                workoutEvents: nil,
+                duration: time,
                 totalEnergyBurned: calorieQuantity,
                 totalDistance: nil,
                 metadata: metadata

@@ -250,7 +250,7 @@ struct DeviceListView: View {
         }
         .backgroundStyle(Color.clear)
         .navigationDestination(for: String.self, destination: { _ in
-            JumpRopeView()
+            ReadyView()
         })
     }
 }
