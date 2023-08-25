@@ -12,6 +12,5 @@ final class Router: ObservableObject {
 }
 
 enum RouterDestination {
-    case ready
     case jump
 }

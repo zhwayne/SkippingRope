@@ -51,7 +51,7 @@ import ActivityIndicatorView
     private func scan(_ startOrEnd: Bool) {
         if startOrEnd {
             if central.isScanning { return }
-            central.scan(deviceModels: [.skippingRopeQ3], throttling: .throttleRSSIDelta(0)) { [weak self] allDeviceDiscoveries in
+            central.scan { [weak self] allDeviceDiscoveries in
                 self?.discoveries = allDeviceDiscoveries
             } stopped: { [weak self] error in
                 if self?.scanning == true {
@@ -143,11 +143,7 @@ struct ContentView: View {
                 viewModel.discoveries = []
             })
             .navigationDestination(for: RouterDestination.self, destination: { value in
-                if value == .ready {
-                    ReadyView()
-                } else if value == .jump {
-                    JumpRopeView()
-                }
+                JumpRopeView()
             })
             .onAppear {
                 if viewModel.central.connectionStatus == .disconnected {
@@ -250,7 +246,7 @@ struct DeviceListView: View {
                     .onTapGesture {
                         Task {
                             await viewModel.connect(to: discovery)
-                            router.path.append(RouterDestination.ready)
+                            router.path.append(RouterDestination.jump)
                         }
                     }
             }
